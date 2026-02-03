@@ -1,7 +1,59 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Portfolio</title>
+    <link rel="stylesheet" href="style.css">
+</head>
 <body>
-<h1>Hello World</h1>
-<p>I'm hosted with GitHub Pages.</p>
+
+    <nav>
+        <div class="logo">DevPortfolio</div>
+        <ul class="nav-links">
+            <li><a href="#about">About</a></li>
+            <li><a href="#projects">Projects</a></li>
+            <li><a href="#contact">Contact</a></li>
+        </ul>
+    </nav>
+
+    <header class="hero">
+        <div class="hero-content">
+            <h1>Hi, I'm [Your Name].</h1>
+            <p>I build immersive games and interactive experiences.</p>
+            <div class="skills">
+                <span>C++</span>
+                <span>C#</span>
+                <span>Unity</span>
+                <span>Java</span>
+            </div>
+            <a href="#projects" class="btn">View My Work</a>
+        </div>
+    </header>
+
+    <section id="projects">
+        <h2>Featured Projects</h2>
+        <div class="project-grid">
+
+            <div class="card">
+                <div class="card-image"></div> <h3>Project Title</h3>
+                <p>A brief description of the game or tool. Mention the tech stack used (e.g., Unity, C#).</p>
+                <a href="#" class="link">View Code &rarr;</a>
+            </div>
+
+            <div class="card">
+                <div class="card-image"></div>
+                <h3>Project Title</h3>
+                <p>A brief description of the game or tool. Mention the tech stack used (e.g., Unity, C#).</p>
+                <a href="#" class="link">Play Demo &rarr;</a>
+            </div>
+
+        </div>
+    </section>
+
+    <footer id="contact">
+        <p>Connect with me on <a href="#">GitHub</a> or <a href="#">LinkedIn</a>.</p>
+    </footer>
+
 </body>
 </html>
