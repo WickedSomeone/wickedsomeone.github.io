@@ -1,0 +1,3 @@
+User-agent: *
+Disallow:
+Sitemap: https://wickedsomeone.github.io/sitemap.xml
