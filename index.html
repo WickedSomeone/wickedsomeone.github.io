@@ -1,865 +1,3069 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Professional Developer Portfolio</title>
-    <!-- Inter Font -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-
-    <style>
-        /* Modern Reset and CSS Variables */
-        :root {
-            --bg-primary: #0a0a0f;
-            --bg-card: rgba(22, 22, 33, 0.7);
-            --bg-card-border: rgba(255, 255, 255, 0.08);
-            --text-primary: #f3f4f6;
-            --text-secondary: #9ca3af;
-            --accent-blue: #3b82f6;
-            --accent-purple: #8b5cf6;
-            --accent-glow: rgba(59, 130, 246, 0.15);
-            --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
-
-        html {
-            scroll-behavior: smooth;
-        }
-
-        body {
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-            color: var(--text-primary);
-            background-color: var(--bg-primary);
-            /* GUARANTEED BEAUTIFUL FALLBACK GRADIENT (Even if JS/Canvas fails to render) */
-            background-image: radial-gradient(circle at 50% 0%, rgba(59, 130, 246, 0.15) 0%, transparent 50%), radial-gradient(circle at 100% 100%, rgba(139, 92, 246, 0.12) 0%, transparent 40%);
-            background-attachment: fixed;
-            overflow-x: hidden;
-            line-height: 1.6;
-        }
-
-        /* Ambient Wave Canvas Style - Guaranteed underneath everything */
-        #bg-canvas {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100vw;
-            height: 100vh;
-            z-index: 0;
-            pointer-events: none;
-            display: block;
-        }
-
-        /* Main Content Wrapper - Position relative to sit on top of background */
-        .page-wrapper {
-            position: relative;
-            z-index: 1;
-            max-width: 1100px;
-            margin: 0 auto;
-            padding: 0 1.5rem;
-        }
-
-        /* Navigation Header */
-        header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 2rem 0;
-            margin-bottom: 3rem;
-        }
-
-        .logo {
-            font-size: 1.25rem;
-            font-weight: 700;
-            letter-spacing: -0.025em;
-            background: linear-gradient(135deg, var(--accent-blue), var(--accent-purple));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            text-decoration: none;
-        }
-
-        nav {
-            display: flex;
-            gap: 1.5rem;
-        }
-
-            nav a {
-                color: var(--text-secondary);
-                text-decoration: none;
-                font-size: 0.9rem;
-                font-weight: 500;
-                transition: var(--transition-smooth);
-            }
-
-                nav a:hover {
-                    color: var(--text-primary);
-                }
-
-        /* Hero / Positioning Section */
-        .hero {
-            padding: 4rem 0;
-            margin-bottom: 5rem;
-        }
-
-        .hero-tag {
-            display: inline-block;
-            font-size: 0.8rem;
-            font-weight: 600;
-            letter-spacing: 0.05em;
-            text-transform: uppercase;
-            color: var(--accent-blue);
-            margin-bottom: 1rem;
-            padding: 0.35rem 0.75rem;
-            background: rgba(59, 130, 246, 0.1);
-            border: 1px solid rgba(59, 130, 246, 0.2);
-            border-radius: 9999px;
-        }
-
-        .hero h1 {
-            font-size: clamp(2.5rem, 6vw, 4rem);
-            font-weight: 800;
-            line-height: 1.1;
-            letter-spacing: -0.03em;
-            margin-bottom: 1.5rem;
-            background: linear-gradient(to right, #ffffff, #d1d5db);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-
-        .hero p.lead {
-            font-size: clamp(1.1rem, 2.5vw, 1.35rem);
-            color: var(--text-secondary);
-            max-width: 700px;
-            margin-bottom: 2.5rem;
-            font-weight: 400;
-        }
-
-        .hero-actions {
-            display: flex;
-            gap: 1rem;
-            flex-wrap: wrap;
-        }
-
-        .btn {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            padding: 0.8rem 1.75rem;
-            font-size: 0.95rem;
-            font-weight: 500;
-            border-radius: 8px;
-            text-decoration: none;
-            transition: var(--transition-smooth);
-            cursor: pointer;
-        }
-
-        .btn-primary {
-            background: var(--accent-blue);
-            color: #ffffff;
-            box-shadow: 0 4px 20px rgba(59, 130, 246, 0.3);
-        }
-
-            .btn-primary:hover {
-                background: #2563eb;
-                transform: translateY(-2px);
-                box-shadow: 0 6px 25px rgba(59, 130, 246, 0.4);
-            }
-
-        .btn-secondary {
-            background: rgba(255, 255, 255, 0.05);
-            color: var(--text-primary);
-            border: 1px solid var(--bg-card-border);
-        }
-
-            .btn-secondary:hover {
-                background: rgba(255, 255, 255, 0.1);
-                transform: translateY(-2px);
-            }
-
-        /* Section Layouts */
-        section {
-            margin-bottom: 6rem;
-        }
-
-        .section-header {
-            margin-bottom: 3rem;
-        }
-
-            .section-header h2 {
-                font-size: 1.75rem;
-                font-weight: 700;
-                letter-spacing: -0.02em;
-                margin-bottom: 0.5rem;
-            }
-
-            .section-header p {
-                color: var(--text-secondary);
-                font-size: 1rem;
-            }
-
-        /* Grid Framework */
-        .grid-2 {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 2rem;
-        }
-
-        .grid-3 {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 1.5rem;
-        }
-
-        /* Premium Card styling with glassmorphism */
-        .card {
-            background: var(--bg-card);
-            border: 1px solid var(--bg-card-border);
-            border-radius: 12px;
-            padding: 2rem;
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
-            transition: var(--transition-smooth);
-            position: relative;
-            overflow: hidden;
-        }
-
-            .card:hover {
-                transform: translateY(-4px);
-                border-color: rgba(255, 255, 255, 0.15);
-                box-shadow: 0 12px 30px rgba(0, 0, 0, 0.3);
-            }
-
-        /* Project Cards */
-        .project-tag {
-            display: inline-block;
-            font-size: 0.75rem;
-            font-weight: 600;
-            color: var(--accent-blue);
-            text-transform: uppercase;
-            margin-bottom: 0.75rem;
-        }
-
-        .project-card h3 {
-            font-size: 1.25rem;
-            font-weight: 600;
-            margin-bottom: 0.75rem;
-        }
-
-        .project-card p {
-            color: var(--text-secondary);
-            font-size: 0.95rem;
-            margin-bottom: 1.5rem;
-            min-height: 4.5rem;
-        }
-
-        .project-tech {
-            display: flex;
-            gap: 0.5rem;
-            flex-wrap: wrap;
-            margin-bottom: 1.5rem;
-        }
-
-        .tech-pill {
-            font-size: 0.75rem;
-            padding: 0.25rem 0.6rem;
-            background: rgba(255, 255, 255, 0.05);
-            color: var(--text-secondary);
-            border-radius: 4px;
-            border: 1px solid rgba(255, 255, 255, 0.05);
-        }
-
-        .project-link {
-            font-size: 0.9rem;
-            font-weight: 500;
-            color: var(--text-primary);
-            text-decoration: none;
-            display: inline-flex;
-            align-items: center;
-            gap: 0.25rem;
-            transition: var(--transition-smooth);
-        }
-
-            .project-link:hover {
-                color: var(--accent-blue);
-            }
-
-        /* Integrated Detailed Case Study */
-        .case-study {
-            background: linear-gradient(180deg, var(--bg-card), rgba(15, 15, 25, 0.9));
-            border: 1px solid var(--bg-card-border);
-            border-radius: 16px;
-            padding: 3rem 2.5rem;
-            margin-top: 4rem;
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
-        }
-
-        .case-study-meta {
-            display: flex;
-            gap: 1.5rem;
-            margin-bottom: 1.5rem;
-            color: var(--text-secondary);
-            font-size: 0.85rem;
-            flex-wrap: wrap;
-        }
-
-        .case-study h3 {
-            font-size: 1.75rem;
-            font-weight: 700;
-            margin-bottom: 1rem;
-        }
-
-        .case-study-grid {
-            display: grid;
-            grid-template-columns: 2fr 1fr;
-            gap: 3rem;
-            margin-top: 2rem;
-        }
-
-        @media (max-width: 768px) {
-            .case-study-grid {
-                grid-template-columns: 1fr;
-                gap: 2rem;
-            }
-
-            .case-study {
-                padding: 2rem 1.5rem;
-            }
-        }
-
-        .case-study-body h4 {
-            font-size: 1rem;
-            font-weight: 600;
-            color: var(--text-primary);
-            margin: 1.5rem 0 0.5rem 0;
-            text-transform: uppercase;
-            letter-spacing: 0.05em;
-        }
-
-        .case-study-body p {
-            color: var(--text-secondary);
-            font-size: 0.95rem;
-            margin-bottom: 1rem;
-        }
-
-        .case-study-sidebar {
-            display: flex;
-            flex-direction: column;
-            gap: 1.5rem;
-        }
-
-        .metric-card {
-            background: rgba(255, 255, 255, 0.03);
-            border: 1px solid rgba(255, 255, 255, 0.05);
-            padding: 1.25rem;
-            border-radius: 8px;
-            text-align: center;
-        }
-
-        .metric-val {
-            font-size: 2rem;
-            font-weight: 700;
-            color: var(--accent-blue);
-            line-height: 1.2;
-        }
-
-        .metric-lbl {
-            font-size: 0.8rem;
-            color: var(--text-secondary);
-            text-transform: uppercase;
-            letter-spacing: 0.05em;
-            margin-top: 0.25rem;
-        }
-
-        /* Skills Matrix */
-        .skills-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 2rem;
-        }
-
-        .skills-category h3 {
-            font-size: 1.1rem;
-            font-weight: 600;
-            color: var(--text-primary);
-            margin-bottom: 1.25rem;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
-
-        .skills-list {
-            display: flex;
-            flex-direction: column;
-            gap: 1rem;
-        }
-
-        .skill-item {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 0.75rem 1rem;
-            background: rgba(255, 255, 255, 0.02);
-            border: 1px solid rgba(255, 255, 255, 0.04);
-            border-radius: 8px;
-        }
-
-        .skill-name {
-            font-size: 0.95rem;
-            font-weight: 500;
-        }
-
-        .skill-badge {
-            font-size: 0.75rem;
-            font-weight: 500;
-            color: var(--accent-purple);
-            background: rgba(139, 92, 246, 0.1);
-            padding: 0.2rem 0.5rem;
-            border-radius: 4px;
-        }
-
-        /* Professional Safe Contact Form */
-        .contact-container {
-            display: grid;
-            grid-template-columns: 1fr 1.5fr;
-            gap: 4rem;
-        }
-
-        @media (max-width: 768px) {
-            .contact-container {
-                grid-template-columns: 1fr;
-                gap: 2rem;
-            }
-        }
-
-        .contact-info h3 {
-            font-size: 1.5rem;
-            font-weight: 700;
-            margin-bottom: 1rem;
-        }
-
-        .contact-info p {
-            color: var(--text-secondary);
-            font-size: 1rem;
-            margin-bottom: 2rem;
-        }
-
-        .contact-method {
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-            margin-bottom: 1.5rem;
-        }
-
-        .contact-icon {
-            width: 40px;
-            height: 40px;
-            border-radius: 8px;
-            background: rgba(59, 130, 246, 0.1);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: var(--accent-blue);
-        }
-
-        .contact-form form {
-            display: flex;
-            flex-direction: column;
-            gap: 1.25rem;
-        }
-
-        .form-group {
-            display: flex;
-            flex-direction: column;
-            gap: 0.5rem;
-        }
-
-            .form-group label {
-                font-size: 0.85rem;
-                font-weight: 500;
-                color: var(--text-secondary);
-            }
-
-        .form-control {
-            width: 100%;
-            padding: 0.85rem 1rem;
-            background: rgba(255, 255, 255, 0.03);
-            border: 1px solid var(--bg-card-border);
-            border-radius: 8px;
-            color: var(--text-primary);
-            font-family: inherit;
-            font-size: 0.95rem;
-            transition: var(--transition-smooth);
-        }
-
-            .form-control:focus {
-                outline: none;
-                border-color: var(--accent-blue);
-                background: rgba(255, 255, 255, 0.05);
-                box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.1);
-            }
-
-        textarea.form-control {
-            resize: vertical;
-            min-height: 120px;
-        }
-
-        /* Footer */
-        footer {
-            border-top: 1px solid var(--bg-card-border);
-            padding: 3rem 0;
-            margin-top: 6rem;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            flex-wrap: wrap;
-            gap: 1.5rem;
-        }
-
-            footer p {
-                color: var(--text-secondary);
-                font-size: 0.9rem;
-            }
-
-        .footer-links {
-            display: flex;
-            gap: 1.5rem;
-        }
-
-            .footer-links a {
-                color: var(--text-secondary);
-                text-decoration: none;
-                font-size: 0.9rem;
-                transition: var(--transition-smooth);
-            }
-
-                .footer-links a:hover {
-                    color: var(--text-primary);
-                }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Lance Harrington — Gameplay & Systems Engineer | 3D Character Artist</title>
+  <meta name="artifact-type" content="narrative">
+  <meta name="design-style" content="aurora">
+  
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Geist+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  
+  <!-- Pinned CDN Dependencies -->
+  <script src="https://unpkg.com/lucide@1.43.0/dist/umd/lucide.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.min.js"></script>
+
+  <style>
+    :root {
+      color-scheme: dark;
+
+      /* Page and surfaces: deep oceanic slate steps */
+      --background: #0c1214;
+      --surface-container-low: #111a1e;
+      --surface-container: #152024;
+      --surface-container-high: #1c2a30;
+
+      /* Text */
+      --on-surface: #edf3f5;
+      --on-surface-variant: #94a8b0;
+
+      /* Borders */
+      --outline: #38515c;
+      --outline-variant: #213138;
+
+      /* Accents */
+      --primary: #63c7d6;
+      --on-primary: #081214;
+      --primary-container: #163840;
+      --on-primary-container: #c7f0f7;
+      --secondary: #5d7882;
+      --tertiary: #87d69b;
+      --error: #f27474;
+      --on-error: #1a0606;
+
+      /* Data series */
+      --data-1: #63c7d6;
+      --data-2: #87d69b;
+      --data-3: #e8b954;
+      --data-4: #f08c70;
+      --data-context: #415861;
+
+      /* Semantic additions */
+      --positive: #87d69b;
+      --warning: #e8b954;
+      --focus: #63c7d6;
+
+      /* Fonts */
+      --font-headline: 'Instrument Sans', sans-serif;
+      --font-body: 'Plus Jakarta Sans', sans-serif;
+      --font-label: 'Geist Mono', monospace;
+
+      /* Shape */
+      --rounded-sm: 0.25rem;
+      --rounded: 0.5rem;
+      --rounded-lg: 0.75rem;
+      --rounded-full: 9999px;
+
+      /* Style effects */
+      --hairline: 1px solid var(--outline-variant);
+      --hairline-strong: 1px solid var(--outline);
+      --panel-gradient: linear-gradient(180deg, #162226 0%, #111a1e 100%);
+      --heading-tracking: -0.025em;
+      --label-tracking: 0.06em;
+      --sage-tint: color-mix(in srgb, var(--tertiary) 13%, transparent);
+      --cyan-tint: color-mix(in srgb, var(--primary) 13%, transparent);
+      --amber-tint: color-mix(in srgb, var(--warning) 13%, transparent);
+      --error-tint: color-mix(in srgb, var(--error) 13%, transparent);
+
+      /* Spacing scale */
+      --space-xs: 0.25rem;
+      --space-sm: 0.5rem;
+      --space-md: 1rem;
+      --space-lg: 1.5rem;
+      --space-xl: 2.5rem;
+      --space-2xl: 4rem;
+      --space-3xl: 6rem;
+
+      /* Motion */
+      --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+      --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+      --dur-micro: 120ms;
+      --dur-short: 220ms;
+      --dur-long: 420ms;
+
+      /* Type scale (narrative/portfolio) */
+      --display-size: clamp(2.25rem, 1.5rem + 3vw, 3.75rem);
+      --headline-size: clamp(1.6rem, 1.2rem + 1.8vw, 2.35rem);
+      --subhead-size: clamp(1.15rem, 1rem + 0.5vw, 1.35rem);
+      --body-size: clamp(0.95rem, 0.9rem + 0.2vw, 1.05rem);
+      --label-size: 0.75rem;
+    }
+
+    /* Base Reset & Document Rules */
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html, body {
+      overflow-x: clip;
+      background-color: var(--background);
+      color: var(--on-surface);
+      font-family: var(--font-body);
+      font-size: 16px;
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    /* Accessibility Focus Ring */
+    :focus-visible {
+      outline: 2px solid var(--focus);
+      outline-offset: 2px;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+      }
+    }
+
+    /* Typography Utilities */
+    h1, h2, h3, h4 {
+      font-family: var(--font-headline);
+      letter-spacing: var(--heading-tracking);
+      color: var(--on-surface);
+      font-weight: 600;
+    }
+
+    p {
+      color: var(--on-surface-variant);
+      max-width: 72ch;
+    }
+
+    p strong, span strong {
+      color: var(--on-surface);
+      font-weight: 600;
+    }
+
+    .mono {
+      font-family: var(--font-label);
+    }
+
+    .label-badge {
+      font-family: var(--font-label);
+      font-size: var(--label-size);
+      letter-spacing: var(--label-tracking);
+      text-transform: uppercase;
+      display: inline-flex;
+      align-items: center;
+      gap: var(--space-xs);
+      padding: var(--space-xs) var(--space-sm);
+      border-radius: var(--rounded-sm);
+      font-weight: 500;
+    }
+
+    .label-badge.cyan {
+      background: var(--cyan-tint);
+      color: var(--primary);
+      border: 1px solid color-mix(in srgb, var(--primary) 30%, transparent);
+    }
+
+    .label-badge.sage {
+      background: var(--sage-tint);
+      color: var(--tertiary);
+      border: 1px solid color-mix(in srgb, var(--tertiary) 30%, transparent);
+    }
+
+    .label-badge.amber {
+      background: var(--amber-tint);
+      color: var(--warning);
+      border: 1px solid color-mix(in srgb, var(--warning) 30%, transparent);
+    }
+
+    .label-badge.muted {
+      background: var(--surface-container-high);
+      color: var(--on-surface-variant);
+      border: 1px solid var(--outline-variant);
+    }
+
+    /* Layout Shell */
+    .portfolio-shell {
+      max-width: 1240px;
+      margin: 0 auto;
+      padding: 0 var(--space-md) var(--space-3xl) var(--space-md);
+    }
+
+    /* Top Sticky Masthead */
+    .top-nav {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: color-mix(in srgb, var(--background) 90%, transparent);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border-bottom: var(--hairline);
+      padding: var(--space-sm) 0;
+      margin-bottom: var(--space-xl);
+    }
+
+    .nav-inner {
+      max-width: 1240px;
+      margin: 0 auto;
+      padding: 0 var(--space-md);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: var(--space-md);
+    }
+
+    .brand-block {
+      display: flex;
+      align-items: center;
+      gap: var(--space-md);
+    }
+
+    .brand-name {
+      font-family: var(--font-headline);
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: var(--on-surface);
+      letter-spacing: -0.01em;
+    }
+
+    .brand-role {
+      font-family: var(--font-label);
+      font-size: var(--label-size);
+      color: var(--on-surface-variant);
+      letter-spacing: 0.04em;
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: var(--space-xs);
+      list-style: none;
+      overflow-x: auto;
+      padding: var(--space-xs) 0;
+    }
+
+    .nav-btn {
+      background: transparent;
+      border: none;
+      color: var(--on-surface-variant);
+      font-family: var(--font-label);
+      font-size: var(--label-size);
+      letter-spacing: 0.04em;
+      padding: var(--space-xs) var(--space-sm);
+      border-radius: var(--rounded-sm);
+      cursor: pointer;
+      text-decoration: none;
+      white-space: nowrap;
+      transition: color var(--dur-micro) var(--ease-out), background-color var(--dur-micro) var(--ease-out);
+      display: inline-flex;
+      align-items: center;
+      gap: var(--space-xs);
+    }
+
+    .nav-btn:hover {
+      color: var(--on-surface);
+      background: var(--surface-container-high);
+    }
+
+    .nav-btn.active {
+      color: var(--primary);
+      background: var(--cyan-tint);
+      border: 1px solid color-mix(in srgb, var(--primary) 25%, transparent);
+    }
+
+    /* Section Foundations */
+    .section-wrap {
+      margin-bottom: var(--space-3xl);
+      scroll-margin-top: calc(var(--space-2xl) + 20px);
+    }
+
+    .section-header {
+      border-bottom: var(--hairline);
+      padding-bottom: var(--space-md);
+      margin-bottom: var(--space-xl);
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-xs);
+    }
+
+    .section-meta-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: var(--space-sm);
+    }
+
+    .section-title {
+      font-size: var(--headline-size);
+      line-height: 1.15;
+    }
+
+    .section-desc {
+      font-size: 1.05rem;
+      line-height: 1.55;
+      color: var(--on-surface-variant);
+    }
+
+    /* Glass Panels */
+    .panel {
+      background: var(--panel-gradient);
+      border: var(--hairline);
+      border-radius: var(--rounded-lg);
+      padding: var(--space-lg);
+      position: relative;
+    }
+
+    .panel-subtle {
+      background: var(--surface-container);
+      border: var(--hairline);
+      border-radius: var(--rounded);
+      padding: var(--space-md);
+    }
+
+    /* Hero / Project Overview */
+    .hero-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1.25fr) minmax(0, 0.95fr);
+      gap: var(--space-xl);
+      align-items: start;
+    }
+
+    .hero-lead-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: var(--space-xs);
+      margin-bottom: var(--space-sm);
+    }
+
+    .hero-title {
+      font-size: var(--display-size);
+      line-height: 1.08;
+      margin-bottom: var(--space-md);
+      color: var(--on-surface);
+    }
+
+    .hero-bio {
+      font-size: 1.125rem;
+      color: var(--on-surface-variant);
+      line-height: 1.6;
+      margin-bottom: var(--space-lg);
+    }
+
+    .hero-stats-row {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+      gap: var(--space-sm);
+      margin-bottom: var(--space-lg);
+    }
+
+    .stat-card {
+      background: var(--surface-container-low);
+      border: var(--hairline);
+      border-radius: var(--rounded);
+      padding: var(--space-md);
+    }
+
+    .stat-val {
+      font-family: var(--font-label);
+      font-size: 1.5rem;
+      font-weight: 600;
+      color: var(--primary);
+      line-height: 1.2;
+    }
+
+    .stat-desc {
+      font-family: var(--font-label);
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--on-surface-variant);
+      margin-top: var(--space-xs);
+    }
+
+    /* Video Player Mockup Container */
+    .player-container {
+      background: #06090a;
+      border: var(--hairline-strong);
+      border-radius: var(--rounded-lg);
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      box-shadow: 0 16px 40px rgba(0, 0, 0, 0.45);
+    }
+
+    .player-header {
+      background: var(--surface-container-low);
+      border-bottom: var(--hairline);
+      padding: var(--space-sm) var(--space-md);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-family: var(--font-label);
+      font-size: 0.8rem;
+    }
+
+    .player-view-screen {
+      height: 270px;
+      position: relative;
+      background: radial-gradient(circle at 50% 40%, #15252b 0%, #080f12 75%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: var(--space-lg);
+      text-align: center;
+      overflow: hidden;
+    }
+
+    .player-sim-content {
+      max-width: 85%;
+      z-index: 2;
+      transition: opacity var(--dur-short) var(--ease-out);
+    }
+
+    .player-sim-badge {
+      display: inline-block;
+      margin-bottom: var(--space-xs);
+    }
+
+    .player-sim-title {
+      font-size: 1.25rem;
+      font-weight: 600;
+      color: var(--on-surface);
+      margin-bottom: var(--space-xs);
+    }
+
+    .player-sim-caption {
+      font-size: 0.88rem;
+      color: var(--on-surface-variant);
+      line-height: 1.45;
+    }
+
+    .player-hud-grid {
+      position: absolute;
+      inset: 0;
+      background-size: 24px 24px;
+      background-image: 
+        linear-gradient(to right, rgba(99, 199, 214, 0.04) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(99, 199, 214, 0.04) 1px, transparent 1px);
+      pointer-events: none;
+    }
+
+    .player-controls {
+      background: var(--surface-container-low);
+      border-top: var(--hairline);
+      padding: var(--space-sm) var(--space-md);
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-xs);
+    }
+
+    .scrubber-wrap {
+      width: 100%;
+      height: 6px;
+      background: var(--surface-container-high);
+      border-radius: var(--rounded-full);
+      position: relative;
+      cursor: pointer;
+    }
+
+    .scrubber-fill {
+      height: 100%;
+      background: var(--primary);
+      border-radius: var(--rounded-full);
+      width: 0%;
+      transition: width 150ms linear;
+    }
+
+    .chapter-ticks {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      justify-content: space-between;
+      pointer-events: none;
+    }
+
+    .chapter-tick {
+      width: 2px;
+      height: 100%;
+      background: var(--outline);
+    }
+
+    .player-button-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: var(--space-md);
+      margin-top: var(--space-xs);
+    }
+
+    .player-actions-left {
+      display: flex;
+      align-items: center;
+      gap: var(--space-sm);
+    }
+
+    .control-btn {
+      background: transparent;
+      border: none;
+      color: var(--on-surface);
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 32px;
+      height: 32px;
+      border-radius: var(--rounded-sm);
+      transition: background-color var(--dur-micro) var(--ease-out);
+    }
+
+    .control-btn:hover {
+      background: var(--surface-container-high);
+      color: var(--primary);
+    }
+
+    .time-indicator {
+      font-family: var(--font-label);
+      font-size: 0.78rem;
+      color: var(--on-surface-variant);
+    }
+
+    .chapter-pills-row {
+      display: flex;
+      gap: var(--space-xs);
+      overflow-x: auto;
+      padding-top: var(--space-xs);
+      border-top: 1px solid var(--outline-variant);
+    }
+
+    .chapter-pill {
+      background: transparent;
+      border: none;
+      color: var(--on-surface-variant);
+      font-family: var(--font-label);
+      font-size: 0.7rem;
+      padding: 2px var(--space-xs);
+      border-radius: var(--rounded-sm);
+      cursor: pointer;
+      white-space: nowrap;
+    }
+
+    .chapter-pill:hover {
+      color: var(--on-surface);
+      background: var(--surface-container-high);
+    }
+
+    .chapter-pill.active {
+      color: var(--primary);
+      background: var(--cyan-tint);
+    }
+
+    /* Attribution & Role Boundary Matrix */
+    .attribution-card {
+      border: 1px solid var(--outline);
+      background: linear-gradient(180deg, #131c20 0%, #0f1619 100%);
+      border-radius: var(--rounded-lg);
+      padding: var(--space-lg);
+      margin-bottom: var(--space-2xl);
+    }
+
+    .attribution-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+      gap: var(--space-lg);
+      margin-top: var(--space-md);
+    }
+
+    .attribution-col {
+      background: var(--surface-container-low);
+      border: var(--hairline);
+      border-radius: var(--rounded);
+      padding: var(--space-md);
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-sm);
+    }
+
+    .attribution-col.mine {
+      border-left: 3px solid var(--primary);
+    }
+
+    .attribution-col.collaborator {
+      border-left: 3px solid var(--warning);
+    }
+
+    .attr-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: var(--space-xs);
+    }
+
+    .attr-item-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-xs);
+    }
+
+    .attr-item {
+      font-size: 0.9rem;
+      color: var(--on-surface-variant);
+      display: flex;
+      align-items: flex-start;
+      gap: var(--space-xs);
+      line-height: 1.45;
+    }
+
+    .attr-item i {
+      flex-shrink: 0;
+      margin-top: 3px;
+    }
+
+    .attr-item.active-tag i {
+      color: var(--primary);
+    }
+
+    .attr-item.excluded-tag i {
+      color: var(--warning);
+    }
+
+    /* System Tabs & Interactive Switchers */
+    .tab-bar {
+      display: flex;
+      align-items: center;
+      gap: var(--space-xs);
+      border-bottom: var(--hairline);
+      margin-bottom: var(--space-lg);
+      overflow-x: auto;
+      padding-bottom: 2px;
+    }
+
+    .tab-trigger {
+      background: transparent;
+      border: none;
+      color: var(--on-surface-variant);
+      font-family: var(--font-label);
+      font-size: 0.82rem;
+      letter-spacing: 0.04em;
+      padding: var(--space-sm) var(--space-md);
+      cursor: pointer;
+      position: relative;
+      white-space: nowrap;
+      transition: color var(--dur-micro) var(--ease-out);
+      display: inline-flex;
+      align-items: center;
+      gap: var(--space-xs);
+    }
+
+    .tab-trigger:hover {
+      color: var(--on-surface);
+    }
+
+    .tab-trigger.active {
+      color: var(--primary);
+      font-weight: 600;
+    }
+
+    .tab-trigger.active::after {
+      content: '';
+      position: absolute;
+      bottom: -3px;
+      left: 0;
+      right: 0;
+      height: 2px;
+      background: var(--primary);
+    }
+
+    /* Interactive Boss Fight Workbench */
+    .boss-workbench {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(0, 1.25fr);
+      gap: var(--space-lg);
+    }
+
+    .phase-selector-bar {
+      display: flex;
+      gap: var(--space-xs);
+      margin-bottom: var(--space-md);
+    }
+
+    .phase-btn {
+      flex: 1;
+      background: var(--surface-container-low);
+      border: var(--hairline);
+      color: var(--on-surface-variant);
+      font-family: var(--font-label);
+      font-size: 0.8rem;
+      padding: var(--space-sm);
+      border-radius: var(--rounded);
+      cursor: pointer;
+      text-align: center;
+      transition: all var(--dur-micro) var(--ease-out);
+    }
+
+    .phase-btn:hover {
+      background: var(--surface-container-high);
+      color: var(--on-surface);
+    }
+
+    .phase-btn.active {
+      background: var(--cyan-tint);
+      color: var(--primary);
+      border-color: var(--primary);
+      font-weight: 600;
+    }
+
+    .boss-hud-card {
+      background: var(--surface-container);
+      border: var(--hairline);
+      border-radius: var(--rounded);
+      padding: var(--space-md);
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-md);
+    }
+
+    .metric-row {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      font-family: var(--font-label);
+      font-size: 0.85rem;
+    }
+
+    .meter-container {
+      width: 100%;
+      height: 10px;
+      background: var(--surface-container-high);
+      border-radius: var(--rounded-full);
+      overflow: hidden;
+      margin-top: var(--space-xs);
+    }
+
+    .meter-fill-health {
+      height: 100%;
+      background: linear-gradient(90deg, #e07a5f 0%, #f27474 100%);
+      transition: width var(--dur-short) var(--ease-out);
+    }
+
+    .meter-fill-stagger {
+      height: 100%;
+      background: linear-gradient(90deg, #63c7d6 0%, #87d69b 100%);
+      transition: width var(--dur-short) var(--ease-out);
+    }
+
+    .combo-queue-display {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-xs);
+      background: var(--surface-container-low);
+      padding: var(--space-sm);
+      border-radius: var(--rounded-sm);
+      border: var(--hairline);
+    }
+
+    .combo-step-badge {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: var(--space-xs) var(--space-sm);
+      background: var(--surface-container);
+      border-radius: var(--rounded-sm);
+      font-family: var(--font-label);
+      font-size: 0.78rem;
+    }
+
+    .combo-step-badge.current {
+      border-left: 2px solid var(--primary);
+      color: var(--primary);
+    }
+
+    .sim-action-row {
+      display: flex;
+      gap: var(--space-sm);
+      margin-top: var(--space-sm);
+    }
+
+    .action-btn {
+      flex: 1;
+      height: 40px;
+      background: var(--surface-container-high);
+      border: 1px solid var(--outline);
+      color: var(--on-surface);
+      font-family: var(--font-label);
+      font-size: 0.8rem;
+      border-radius: var(--rounded);
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: var(--space-xs);
+      transition: all var(--dur-micro) var(--ease-out);
+    }
+
+    .action-btn:hover {
+      background: var(--primary-container);
+      border-color: var(--primary);
+      color: var(--on-primary-container);
+    }
+
+    .action-btn.primary {
+      background: var(--primary);
+      color: var(--on-primary);
+      border: none;
+      font-weight: 600;
+    }
+
+    .action-btn.primary:hover {
+      background: color-mix(in srgb, var(--primary) 85%, white);
+    }
+
+    /* Architecture State Flow Visualizer */
+    .flowchart-canvas {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: var(--space-sm);
+      background: var(--surface-container-low);
+      padding: var(--space-md);
+      border-radius: var(--rounded);
+      border: var(--hairline);
+    }
+
+    .flow-node {
+      background: var(--surface-container);
+      border: var(--hairline);
+      border-radius: var(--rounded-sm);
+      padding: var(--space-sm);
+      font-family: var(--font-label);
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-xs);
+      transition: border-color var(--dur-micro) var(--ease-out);
+    }
+
+    .flow-node.active-node {
+      border-color: var(--primary);
+      box-shadow: 0 0 12px rgba(99, 199, 214, 0.2);
+    }
+
+    .node-header {
+      font-size: 0.78rem;
+      font-weight: 600;
+      color: var(--on-surface);
+      display: flex;
+      align-items: center;
+      gap: var(--space-xs);
+    }
+
+    .node-body {
+      font-size: 0.72rem;
+      color: var(--on-surface-variant);
+      line-height: 1.35;
+    }
+
+    /* Code Viewers */
+    .code-window {
+      background: #090e10;
+      border: var(--hairline);
+      border-radius: var(--rounded);
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .code-top-bar {
+      background: var(--surface-container-low);
+      border-bottom: var(--hairline);
+      padding: var(--space-xs) var(--space-md);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-family: var(--font-label);
+      font-size: 0.75rem;
+      color: var(--on-surface-variant);
+    }
+
+    .code-tab-list {
+      display: flex;
+      gap: var(--space-xs);
+    }
+
+    .code-file-btn {
+      background: transparent;
+      border: none;
+      color: var(--on-surface-variant);
+      font-family: var(--font-label);
+      font-size: 0.75rem;
+      padding: var(--space-xs) var(--space-sm);
+      border-radius: var(--rounded-sm);
+      cursor: pointer;
+    }
+
+    .code-file-btn.active {
+      color: var(--primary);
+      background: var(--surface-container);
+    }
+
+    pre.code-block {
+      padding: var(--space-md);
+      font-family: var(--font-label);
+      font-size: 0.82rem;
+      line-height: 1.5;
+      overflow-x: auto;
+      color: #d1e2e8;
+      max-height: 380px;
+    }
+
+    /* Syntax Highlighting Tokens */
+    .kw { color: #63c7d6; font-weight: 600; }
+    .typ { color: #87d69b; }
+    .fn { color: #e8b954; }
+    .str { color: #f08c70; }
+    .cmt { color: #5d7882; font-style: italic; }
+    .num { color: #d69be8; }
+
+    /* Quest & Dialogue Framework */
+    .quest-simulator-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1.15fr) minmax(0, 0.85fr);
+      gap: var(--space-lg);
+    }
+
+    .quest-list-panel {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-sm);
+    }
+
+    .quest-item-card {
+      background: var(--surface-container);
+      border: var(--hairline);
+      border-radius: var(--rounded);
+      padding: var(--space-md);
+      cursor: pointer;
+      transition: all var(--dur-micro) var(--ease-out);
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-xs);
+    }
+
+    .quest-item-card:hover {
+      background: var(--surface-container-high);
+      border-color: var(--outline);
+    }
+
+    .quest-item-card.selected {
+      border-color: var(--primary);
+      background: linear-gradient(90deg, var(--cyan-tint) 0%, var(--surface-container) 100%);
+    }
+
+    .quest-header-line {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: var(--space-sm);
+    }
+
+    .quest-title-text {
+      font-size: 0.95rem;
+      font-weight: 600;
+      color: var(--on-surface);
+    }
+
+    .dialog-console {
+      background: var(--surface-container-low);
+      border: var(--hairline);
+      border-radius: var(--rounded);
+      padding: var(--space-md);
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-md);
+    }
+
+    .dialog-bubble {
+      background: var(--surface-container);
+      border-left: 3px solid var(--primary);
+      padding: var(--space-sm) var(--space-md);
+      border-radius: 0 var(--rounded) var(--rounded) 0;
+      font-size: 0.9rem;
+      color: var(--on-surface);
+      line-height: 1.5;
+    }
+
+    .dialog-speaker {
+      font-family: var(--font-label);
+      font-size: 0.75rem;
+      color: var(--primary);
+      text-transform: uppercase;
+      margin-bottom: var(--space-xs);
+    }
+
+    /* JSON Save System Sandbox */
+    .json-sandbox-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(0, 1.25fr);
+      gap: var(--space-lg);
+    }
+
+    .json-controls-form {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-md);
+      background: var(--surface-container);
+      border: var(--hairline);
+      border-radius: var(--rounded);
+      padding: var(--space-md);
+    }
+
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-xs);
+    }
+
+    .form-label {
+      font-family: var(--font-label);
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--on-surface-variant);
+    }
+
+    .slider-row {
+      display: flex;
+      align-items: center;
+      gap: var(--space-md);
+    }
+
+    .slider-input {
+      flex: 1;
+      accent-color: var(--primary);
+      cursor: pointer;
+    }
+
+    .slider-val-readout {
+      font-family: var(--font-label);
+      font-size: 0.8rem;
+      min-width: 48px;
+      text-align: right;
+      color: var(--primary);
+    }
+
+    /* 3D Art Pipeline & Character Gallery */
+    .character-art-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1.35fr) minmax(0, 0.95fr);
+      gap: var(--space-lg);
+      align-items: stretch;
+    }
+
+    .viewport-container {
+      background: #080d0f;
+      border: var(--hairline-strong);
+      border-radius: var(--rounded-lg);
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      position: relative;
+    }
+
+    .viewport-canvas-box {
+      width: 100%;
+      height: 380px;
+      position: relative;
+      cursor: grab;
+    }
+
+    .viewport-canvas-box:active {
+      cursor: grabbing;
+    }
+
+    .viewport-overlay-ui {
+      position: absolute;
+      top: var(--space-md);
+      left: var(--space-md);
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-xs);
+      pointer-events: none;
+    }
+
+    .viewport-toolbar {
+      background: var(--surface-container-low);
+      border-top: var(--hairline);
+      padding: var(--space-xs) var(--space-md);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: var(--space-md);
+      font-family: var(--font-label);
+      font-size: 0.75rem;
+    }
+
+    .npc-roster-list {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-xs);
+    }
+
+    .npc-card {
+      background: var(--surface-container);
+      border: var(--hairline);
+      border-radius: var(--rounded);
+      padding: var(--space-sm) var(--space-md);
+      cursor: pointer;
+      transition: all var(--dur-micro) var(--ease-out);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .npc-card:hover {
+      background: var(--surface-container-high);
+    }
+
+    .npc-card.active {
+      border-color: var(--primary);
+      background: var(--cyan-tint);
+    }
+
+    .npc-name {
+      font-weight: 600;
+      font-size: 0.92rem;
+      color: var(--on-surface);
+    }
+
+    .npc-role {
+      font-family: var(--font-label);
+      font-size: 0.74rem;
+      color: var(--on-surface-variant);
+    }
+
+    /* Architecture Deep-Dive Callouts */
+    .callout-box {
+      background: var(--surface-container-low);
+      border: var(--hairline);
+      border-left: 3px solid var(--primary);
+      border-radius: 0 var(--rounded) var(--rounded) 0;
+      padding: var(--space-md);
+      margin: var(--space-md) 0;
+    }
+
+    .callout-title {
+      font-family: var(--font-label);
+      font-size: 0.8rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--primary);
+      margin-bottom: var(--space-xs);
+      display: flex;
+      align-items: center;
+      gap: var(--space-xs);
+    }
+
+    .callout-text {
+      font-size: 0.92rem;
+      color: var(--on-surface-variant);
+      line-height: 1.5;
+    }
+
+    /* Subsystem Details & Cards */
+    .subsystem-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: var(--space-md);
+      margin-top: var(--space-lg);
+    }
+
+    .subsystem-card {
+      background: var(--surface-container);
+      border: var(--hairline);
+      border-radius: var(--rounded);
+      padding: var(--space-md);
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-xs);
+    }
+
+    .subsystem-card-title {
+      font-size: 1rem;
+      font-weight: 600;
+      color: var(--on-surface);
+      display: flex;
+      align-items: center;
+      gap: var(--space-xs);
+    }
+
+    .subsystem-card-desc {
+      font-size: 0.88rem;
+      color: var(--on-surface-variant);
+      line-height: 1.45;
+    }
+
+    /* Footer */
+    .site-footer {
+      border-top: var(--hairline);
+      padding-top: var(--space-xl);
+      margin-top: var(--space-3xl);
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-md);
+      font-family: var(--font-label);
+      font-size: 0.82rem;
+      color: var(--on-surface-variant);
+    }
+
+    .footer-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: var(--space-md);
+    }
+
+    /* Responsive Adaptation */
+    @media (max-width: 960px) {
+      .hero-grid, .boss-workbench, .quest-simulator-grid, .json-sandbox-grid, .character-art-grid, .attribution-grid {
+        grid-template-columns: minmax(0, 1fr);
+      }
+      .flowchart-canvas {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+    }
+
+    @media (max-width: 640px) {
+      .portfolio-shell {
+        padding: 0 var(--space-sm) var(--space-2xl) var(--space-sm);
+      }
+      .flowchart-canvas {
+        grid-template-columns: minmax(0, 1fr);
+      }
+      .brand-block {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0;
+      }
+    }
+  </style>
 </head>
 <body>
 
-    <!-- GUARANTEED VISIBLE CANVAS BACKGROUND -->
-    <canvas id="bg-canvas"></canvas>
-
-    <div class="page-wrapper">
-        <!-- Header -->
-        <header>
-            <a href="#" class="logo">dev.portfolio</a>
-            <nav>
-                <a href="#projects">Projects</a>
-                <a href="#skills">Skills</a>
-                <a href="#about">Story</a>
-                <a href="#contact">Contact</a>
-            </nav>
-        </header>
-
-        <!-- Hero Section -->
-        <section class="hero" id="hero">
-            <span class="hero-tag">Available for Opportunities</span>
-            <h1>Architecting High-Signal,<br>Production-Ready Web Applications</h1>
-            <p class="lead">I build fast, reliable, and secure software solutions with clean, standard-compliant architectures. Focused on transforming technical constraints into elegant products.</p>
-            <div class="hero-actions">
-                <a href="#projects" class="btn btn-primary">Explore Featured Work</a>
-                <a href="#contact" class="btn btn-secondary">Get in Touch</a>
-            </div>
-        </section>
-
-        <!-- Projects Section -->
-        <section id="projects">
-            <div class="section-header">
-                <h2>Featured Projects</h2>
-                <p>A curated selection of real-world problem-solving tools, entirely custom-built.</p>
-            </div>
-
-            <div class="grid-3">
-                <!-- Project 1 -->
-                <div class="card project-card">
-                    <span class="project-tag">AI & Machine Learning</span>
-                    <h3>AI Study Buddy</h3>
-                    <p>Takes dense textbook contents and generates explanations, interactive quizzes, and context-aware study flashcards.</p>
-                    <div class="project-tech">
-                        <span class="tech-pill">Next.js</span>
-                        <span class="tech-pill">OpenAI API</span>
-                        <span class="tech-pill">Tailwind</span>
-                    </div>
-                    <a href="https://github.com" class="project-link" target="_blank" rel="noopener noreferrer">View Repository &rarr;</a>
-                </div>
-
-                <!-- Project 2 -->
-                <div class="card project-card">
-                    <span class="project-tag">Data Visualization</span>
-                    <h3>Dev Expense Tracker</h3>
-                    <p>A beautiful fullstack dashboard tracking active software SaaS subscriptions, API usage, and cloud expenses over dynamic budgets.</p>
-                    <div class="project-tech">
-                        <span class="tech-pill">React</span>
-                        <span class="tech-pill">Supabase</span>
-                        <span class="tech-pill">Recharts</span>
-                    </div>
-                    <a href="https://github.com" class="project-link" target="_blank" rel="noopener noreferrer">View Repository &rarr;</a>
-                </div>
-
-                <!-- Project 3 -->
-                <div class="card project-card">
-                    <span class="project-tag">Open Source Tools</span>
-                    <h3>Contribution Finder</h3>
-                    <p>Integrates with the GitHub REST API to surface perfect "good first issue" candidates matching your specific skill set.</p>
-                    <div class="project-tech">
-                        <span class="tech-pill">TypeScript</span>
-                        <span class="tech-pill">GitHub API</span>
-                        <span class="tech-pill">CSS Canvas</span>
-                    </div>
-                    <a href="https://github.com" class="project-link" target="_blank" rel="noopener noreferrer">View Repository &rarr;</a>
-                </div>
-            </div>
-
-            <!-- Deep Dive Case Study -->
-            <div class="case-study">
-                <div class="case-study-meta">
-                    <span>CASE STUDY</span>
-                    <span>•</span>
-                    <span>PERFORMANCE & SYSTEM ARCHITECTURE</span>
-                </div>
-                <h3>Distributed Notification Pipeline & API Gateway</h3>
-                <p style="color: var(--text-secondary); margin-bottom: 2rem;">A deep architectural overview of a high-throughput transaction and alert notification pipeline designed to process real-time webhooks without backpressure.</p>
-
-                <div class="case-study-grid">
-                    <div class="case-study-body">
-                        <h4>The Problem</h4>
-                        <p>Our legacy cron-polling infrastructure was suffering from severe p99 delivery latency peaks (exceeding 14 seconds) during high-traffic checkout events, directly leading to dropped webhooks and lost payment state updates.</p>
-
-                        <h4>The Approach</h4>
-                        <p>We completely refactored the polling pipeline into a distributed, event-driven architecture using Apache Kafka and a Go-based consumption daemon. Real-time webhook delivery was decoupled from active thread execution, caching critical payloads in a highly optimized memory layer.</p>
-
-                        <h4>Challenges & Learnings</h4>
-                        <p>The main bottleneck shifted to database connection pooling during burst periods. By implementing an exponential backoff retry mechanism with a circuit-breaker pattern, we protected our persistent relational models from starvation.</p>
-                    </div>
-
-                    <div class="case-study-sidebar">
-                        <div class="metric-card">
-                            <div class="metric-val">400ms</div>
-                            <div class="metric-lbl">p99 Latency (from 14s)</div>
-                        </div>
-                        <div class="metric-card">
-                            <div class="metric-val">-30%</div>
-                            <div class="metric-lbl">Cloud Infrastructure Costs</div>
-                        </div>
-                        <div class="metric-card">
-                            <div class="metric-val">100%</div>
-                            <div class="metric-lbl">Webhook Delivery SLA</div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Skills Section -->
-        <section id="skills">
-            <div class="section-header">
-                <h2>Technical Proficiency</h2>
-                <p>Honest, project-backed skill organization without arbitrary self-assigned percentages.</p>
-            </div>
-
-            <div class="skills-grid">
-                <!-- Category 1 -->
-                <div class="skills-category">
-                    <h3>Backend & Core Systems</h3>
-                    <div class="skills-list">
-                        <div class="skill-item">
-                            <span class="skill-name">Node.js / Express</span>
-                            <span class="skill-badge">Primary</span>
-                        </div>
-                        <div class="skill-item">
-                            <span class="skill-name">Go (Golang)</span>
-                            <span class="skill-badge">Advanced</span>
-                        </div>
-                        <div class="skill-item">
-                            <span class="skill-name">PostgreSQL / MongoDB</span>
-                            <span class="skill-badge">Primary</span>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Category 2 -->
-                <div class="skills-category">
-                    <h3>Frontend Engineering</h3>
-                    <div class="skills-list">
-                        <div class="skill-item">
-                            <span class="skill-name">React / Next.js</span>
-                            <span class="skill-badge">Primary</span>
-                        </div>
-                        <div class="skill-item">
-                            <span class="skill-name">TypeScript</span>
-                            <span class="skill-badge">Advanced</span>
-                        </div>
-                        <div class="skill-item">
-                            <span class="skill-name">Vanilla CSS & Canvas</span>
-                            <span class="skill-badge">Primary</span>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Category 3 -->
-                <div class="skills-category">
-                    <h3>DevOps & Infrastructure</h3>
-                    <div class="skills-list">
-                        <div class="skill-item">
-                            <span class="skill-name">Docker Containers</span>
-                            <span class="skill-badge">Primary</span>
-                        </div>
-                        <div class="skill-item">
-                            <span class="skill-name">GitHub Actions (CI/CD)</span>
-                            <span class="skill-badge">Advanced</span>
-                        </div>
-                        <div class="skill-item">
-                            <span class="skill-name">Vercel & AWS Deploy</span>
-                            <span class="skill-badge">Comfortable</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Contact Section -->
-        <section id="contact">
-            <div class="contact-container">
-                <div class="contact-info">
-                    <h3>Let's Collaborate</h3>
-                    <p>Have an interesting project, integration challenge, or simply want to chat about system design? Submit the secure form, and I will get back to you directly.</p>
-
-                    <div class="contact-method">
-                        <div class="contact-icon">&#9993;</div>
-                        <div>
-                            <div style="font-size: 0.8rem; color: var(--text-secondary);">Direct Form Routing</div>
-                            <div style="font-weight: 500;">Secure, spam-filtered delivery</div>
-                        </div>
-                    </div>
-                    <div class="contact-method">
-                        <div class="contact-icon">&#128188;</div>
-                        <div>
-                            <div style="font-size: 0.8rem; color: var(--text-secondary);">Availability Status</div>
-                            <div style="font-weight: 500; color: #10b981;">Open to New Projects</div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="contact-form card">
-                    <!-- Secure static client routing -->
-                    <form action="https://formspree.io/f/placeholder" method="POST" onsubmit="event.preventDefault(); alert('Template form submission simulated successfully!');">
-                        <div class="form-group">
-                            <label for="name">Your Name</label>
-                            <input type="text" id="name" name="name" required class="form-control" placeholder="Jane Doe">
-                        </div>
-                        <div class="form-group">
-                            <label for="email">Email Address</label>
-                            <input type="email" id="email" name="email" required class="form-control" placeholder="jane@company.com">
-                        </div>
-                        <div class="form-group">
-                            <label for="message">Message</label>
-                            <textarea id="message" name="message" required class="form-control" placeholder="Tell me about your project..."></textarea>
-                        </div>
-                        <button type="submit" class="btn btn-primary" style="margin-top: 0.5rem; width: 100%;">Send Message</button>
-                    </form>
-                </div>
-            </div>
-        </section>
-
-        <!-- Footer -->
-        <footer>
-            <p>&copy; 2026 dev.portfolio. All rights reserved.</p>
-            <div class="footer-links">
-                <a href="https://github.com" target="_blank" rel="noopener noreferrer">GitHub</a>
-                <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer">LinkedIn</a>
-            </div>
-        </footer>
+  <!-- Top Sticky Navigation -->
+  <nav class="top-nav" aria-label="Portfolio Sections">
+    <div class="nav-inner">
+      <div class="brand-block">
+        <span class="brand-name">Lance Harrington</span>
+        <span class="brand-role">Gameplay & Systems Engineer / 3D Artist</span>
+      </div>
+      <ul class="nav-links" id="topNavList">
+        <li><button class="nav-btn active" onclick="scrollToSection('projectOverview')"><i data-lucide="layers" style="width:14px;height:14px;"></i> Overview</button></li>
+        <li><button class="nav-btn" onclick="scrollToSection('attributionSection')"><i data-lucide="check-check" style="width:14px;height:14px;"></i> Role Matrix</button></li>
+        <li><button class="nav-btn" onclick="scrollToSection('bossSystem')"><i data-lucide="swords" style="width:14px;height:14px;"></i> Boss State Machine</button></li>
+        <li><button class="nav-btn" onclick="scrollToSection('questSystem')"><i data-lucide="scroll" style="width:14px;height:14px;"></i> Quest Framework</button></li>
+        <li><button class="nav-btn" onclick="scrollToSection('saveSystem')"><i data-lucide="database" style="width:14px;height:14px;"></i> JSON Persistence</button></li>
+        <li><button class="nav-btn" onclick="scrollToSection('characterArt')"><i data-lucide="box" style="width:14px;height:14px;"></i> 3D Character Art</button></li>
+      </ul>
     </div>
+  </nav>
 
-    <!-- ROBUST SMOOTH DIAGONAL WAVE AMBIENT CANVAS ANIMATION -->
-    <script>
-        (function () {
-            "use strict";
+  <main class="portfolio-shell">
 
-            const canvas = document.getElementById('bg-canvas');
-            if (!canvas) return;
+    <!-- Hero / Project Overview -->
+    <section class="section-wrap" id="projectOverview">
+      <div class="hero-grid">
+        <div>
+          <div class="hero-lead-badge">
+            <span class="label-badge cyan"><i data-lucide="cpu" style="width:12px;height:12px;"></i> Systems Architecture</span>
+            <span class="label-badge sage"><i data-lucide="sparkles" style="width:12px;height:12px;"></i> 3D Character Art</span>
+          </div>
+          <h1 class="hero-title">Iron Echoes: Zenus Uprising</h1>
+          <p class="hero-bio">
+            Engineering robust, modular gameplay systems and authoring character assets for a 3D third-person action RPG developed in Unity. Designed data-driven ScriptableObject state machines for multi-phase boss encounters, a polymorphic quest execution runtime, an interface-decoupled JSON serialization engine, and 5 fully modeled and rigged NPC characters.
+          </p>
 
-            const ctx = canvas.getContext('2d');
-            if (!ctx) return;
+          <div class="hero-stats-row">
+            <div class="stat-card">
+              <div class="stat-val">3-Phase</div>
+              <div class="stat-desc">Boss SO Graph</div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-val">4 Types</div>
+              <div class="stat-desc">Polymorphic Quests</div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-val">ISaveable</div>
+              <div class="stat-desc">JSON State Bridge</div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-val">5 Models</div>
+              <div class="stat-desc">Sculpted & Rigged NPCs</div>
+            </div>
+          </div>
+        </div>
 
-            let particles = [];
-            let animationFrameId;
+        <!-- Capstone Presentation Player Container -->
+        <div class="player-container" aria-label="Capstone Presentation Player">
+          <div class="player-header">
+            <span><i data-lucide="film" style="width:14px;height:14px;display:inline-block;vertical-align:middle;margin-right:4px;"></i> Lance_Harrington_Capstone.mp4</span>
+            <span class="label-badge muted" id="playerStatusBadge">READY • 04:15</span>
+          </div>
+          <div class="player-view-screen" id="playerScreen">
+            <div class="player-hud-grid"></div>
+            <div class="player-sim-content" id="playerSimContent">
+              <span class="label-badge cyan player-sim-badge" id="playerChapterBadge">CHAPTER 1 / 5</span>
+              <div class="player-sim-title" id="playerChapterTitle">Project Introduction & Role Scope</div>
+              <div class="player-sim-caption" id="playerChapterDesc">
+                "Hello, my name is Lance Harrington and I am a programmer and character artist for Iron Echo's Zenus Uprising..."
+              </div>
+            </div>
+          </div>
+          <div class="player-controls">
+            <div class="scrubber-wrap" id="scrubberBar" onclick="handleScrubberClick(event)">
+              <div class="scrubber-fill" id="scrubberFill"></div>
+              <div class="chapter-ticks">
+                <span class="chapter-tick" style="left:0%;"></span>
+                <span class="chapter-tick" style="left:20%;"></span>
+                <span class="chapter-tick" style="left:40%;"></span>
+                <span class="chapter-tick" style="left:65%;"></span>
+                <span class="chapter-tick" style="left:85%;"></span>
+              </div>
+            </div>
+            <div class="player-button-row">
+              <div class="player-actions-left">
+                <button class="control-btn" id="playPauseBtn" onclick="togglePlaySimulation()" aria-label="Play or Pause Presentation">
+                  <i data-lucide="play" id="playIcon" style="width:16px;height:16px;"></i>
+                </button>
+                <button class="control-btn" onclick="restartSimulation()" aria-label="Restart Presentation">
+                  <i data-lucide="rotate-ccw" style="width:14px;height:14px;"></i>
+                </button>
+                <span class="time-indicator" id="timecodeDisplay">00:00 / 04:15</span>
+              </div>
+              <div>
+                <span class="label-badge sage" style="font-size:0.7rem;"><i data-lucide="check" style="width:10px;height:10px;"></i> Verified Capstone Media</span>
+              </div>
+            </div>
+            <div class="chapter-pills-row" id="chapterPillRow">
+              <button class="chapter-pill active" onclick="selectChapter(0)">01 Overview</button>
+              <button class="chapter-pill" onclick="selectChapter(1)">02 Boss AI</button>
+              <button class="chapter-pill" onclick="selectChapter(2)">03 Quests</button>
+              <button class="chapter-pill" onclick="selectChapter(3)">04 Save System</button>
+              <button class="chapter-pill" onclick="selectChapter(4)">05 3D NPC Art</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
 
-            // Highly visible particle characteristics (Large, soft, bright glow Orbs)
-            const MIN_SIZE = 3.5;
-            const MAX_SIZE = 7.0;
-            const PARTICLE_COUNT_RATIO = 0.00004; // Proportional density to viewport area
+    <!-- Engineering Attribution & Technical Boundary -->
+    <section class="section-wrap" id="attributionSection">
+      <div class="section-header">
+        <div class="section-meta-row">
+          <span class="label-badge muted mono">CREDENTIAL INTEGRITY & SYSTEM BOUNDARIES</span>
+          <span class="label-badge amber mono">COLLABORATIVE ATTRIBUTION</span>
+        </div>
+        <h2 class="section-title">Technical Ownership & Systems Attribution</h2>
+        <p class="section-desc">
+          Clean boundaries between systems engineered directly by Lance Harrington versus complementary subsystems built by project teammates.
+        </p>
+      </div>
 
-            function resizeCanvas() {
-                canvas.width = window.innerWidth;
-                canvas.height = window.innerHeight;
-                initParticles();
+      <div class="attribution-card">
+        <div class="attribution-grid">
+          <!-- Lance's Direct Work -->
+          <div class="attribution-col mine">
+            <div class="attr-header">
+              <span class="label-badge cyan mono">ENGINEERED BY LANCE HARRINGTON</span>
+              <span class="mono" style="font-size:0.75rem;color:var(--primary);">PRIMARY SYSTEMS</span>
+            </div>
+            <ul class="attr-item-list">
+              <li class="attr-item active-tag">
+                <i data-lucide="check-circle-2" style="width:16px;height:16px;"></i>
+                <span><strong>Modular Boss & Enemy AI:</strong> Custom finite state machine architecture, ScriptableObject linked phase graphs, stagger calculation, and multi-tier attack combos.</span>
+              </li>
+              <li class="attr-item active-tag">
+                <i data-lucide="check-circle-2" style="width:16px;height:16px;"></i>
+                <span><strong>Custom Quest & Dialogue Framework:</strong> Built-from-scratch quest engine supporting sequential and non-sequential goals across Kill, Item, Destination, and NPC Talk-To types.</span>
+              </li>
+              <li class="attr-item active-tag">
+                <i data-lucide="check-circle-2" style="width:16px;height:16px;"></i>
+                <span><strong>JSON Persistence & Save Architecture:</strong> Interface-based <code>ISaveable</code> pattern, GUID validation, scene restoration bridge, and serialization for quests, audio mixer settings, and inventory.</span>
+              </li>
+              <li class="attr-item active-tag">
+                <i data-lucide="check-circle-2" style="width:16px;height:16px;"></i>
+                <span><strong>Audio & Combat Hitbox Mechanics:</strong> <code>SoundFXManager</code> spatial audio pooling, dynamic AudioSource lifecycle disposal, sub-frame animation collider triggers, and Cinemachine target acquisition.</span>
+              </li>
+              <li class="attr-item active-tag">
+                <i data-lucide="check-circle-2" style="width:16px;height:16px;"></i>
+                <span><strong>3D Character Art Pipeline:</strong> Complete modeling, high/low-poly sculpting, UV mapping, texturing, rigging, and Mecanim avatar setup for 5 unique NPC characters.</span>
+              </li>
+            </ul>
+          </div>
+
+          <!-- Teammate Work Explicitly Excluded -->
+          <div class="attribution-col collaborator">
+            <div class="attr-header">
+              <span class="label-badge amber mono">TEAMMATE SYSTEMS (EXCLUDED)</span>
+              <span class="mono" style="font-size:0.75rem;color:var(--warning);">PEER CONTRIBUTIONS</span>
+            </div>
+            <ul class="attr-item-list">
+              <li class="attr-item excluded-tag">
+                <i data-lucide="alert-circle" style="width:16px;height:16px;"></i>
+                <span><strong>Player Stats & Leveling Curve System:</strong> <em>(Teammate Work)</em> The mathematical progression curves for Strength, Dexterity, Magic Resist, Coolant Temp, and Level XP (e.g. <code>StatCurves.cs</code> and <code>LevelingSystem.cs</code>) were engineered by a project teammate. Lance engineered the serialization bridge to save/load player stats into JSON, but not the curve equations or leveling logic.</span>
+              </li>
+              <li class="attr-item excluded-tag">
+                <i data-lucide="shield-alert" style="width:16px;height:16px;"></i>
+                <span><strong>Environmental World Design:</strong> Level layouts, modular terrain geometry, and lighting bakes were constructed by team level designers.</span>
+              </li>
+              <li class="attr-item excluded-tag">
+                <i data-lucide="info" style="width:16px;height:16px;"></i>
+                <span><strong>Primary Player Character Model:</strong> The base robotic player model mesh was sourced/created by a teammate, while Lance authored the 5 auxiliary NPC characters.</span>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- System 1: Modular Boss Fight & Enemy AI -->
+    <section class="section-wrap" id="bossSystem">
+      <div class="section-header">
+        <div class="section-meta-row">
+          <span class="label-badge cyan mono">SYSTEM ARCHITECTURE 01</span>
+          <span class="label-badge muted mono">STATE MACHINE & SCRIPTABLEOBJECTS</span>
+        </div>
+        <h2 class="section-title">Modular Boss Fight System & AI State Machine</h2>
+        <p class="section-desc">
+          A decoupled, data-driven finite state machine enabling designers to author multi-phase boss encounters with custom attack sequences, health thresholds, stagger meters, and seamless transitions without code changes.
+        </p>
+      </div>
+
+      <div class="tab-bar">
+        <button class="tab-trigger active" onclick="switchBossTab('simulator')"><i data-lucide="activity" style="width:14px;height:14px;"></i> Interactive Phase Simulator</button>
+        <button class="tab-trigger" onclick="switchBossTab('flowchart')"><i data-lucide="git-commit" style="width:14px;height:14px;"></i> State Transition Flow</button>
+        <button class="tab-trigger" onclick="switchBossTab('code')"><i data-lucide="code-2" style="width:14px;height:14px;"></i> C# Implementation Excerpts</button>
+      </div>
+
+      <!-- Boss Tab 1: Simulator -->
+      <div id="bossTabSimulator">
+        <div class="boss-workbench">
+          <!-- Boss Phase HUD -->
+          <div class="boss-hud-card">
+            <div>
+              <span class="form-label">Select ScriptableObject Phase Asset</span>
+              <div class="phase-selector-bar">
+                <button class="phase-btn active" id="phaseBtn1" onclick="selectBossPhase(1)">Phase 1 (Broadsword)</button>
+                <button class="phase-btn" id="phaseBtn2" onclick="selectBossPhase(2)">Phase 2 (Dual Wield)</button>
+                <button class="phase-btn" id="phaseBtn3" onclick="selectBossPhase(3)">Phase 3 (Berserk Frenzy)</button>
+              </div>
+            </div>
+
+            <div>
+              <div class="metric-row">
+                <span class="mono">PHASE HEALTH:</span>
+                <span class="mono" id="bossHealthText" style="color:var(--error);font-weight:600;">200 / 200 HP</span>
+              </div>
+              <div class="meter-container">
+                <div class="meter-fill-health" id="bossHealthFill" style="width:100%;"></div>
+              </div>
+            </div>
+
+            <div>
+              <div class="metric-row">
+                <span class="mono">STAGGER TOLERANCE:</span>
+                <span class="mono" id="bossStaggerText" style="color:var(--primary);font-weight:600;">0 / 200</span>
+              </div>
+              <div class="meter-container">
+                <div class="meter-fill-stagger" id="bossStaggerFill" style="width:0%;"></div>
+              </div>
+            </div>
+
+            <div class="panel-subtle">
+              <span class="form-label">ScriptableObject Data Parameters</span>
+              <div style="display:grid;grid-template-columns:1fr 1fr;gap:var(--space-xs);margin-top:var(--space-xs);font-family:var(--font-label);font-size:0.78rem;">
+                <div>Base Damage: <strong id="paramDmg" style="color:var(--on-surface);">10</strong></div>
+                <div>Move Speed: <strong id="paramSpeed" style="color:var(--on-surface);">4.0 m/s</strong></div>
+                <div>Light/Heavy Ratio: <strong id="paramRatio" style="color:var(--on-surface);">3 : 1</strong></div>
+                <div>Special Range: <strong id="paramRange" style="color:var(--on-surface);">15.0m</strong></div>
+                <div style="grid-column:span 2;">Equipped: <strong id="paramWeapon" style="color:var(--primary);">Right Hand: Broadsword</strong></div>
+              </div>
+            </div>
+
+            <div>
+              <span class="form-label">Active Animation Sequence Queue</span>
+              <div class="combo-queue-display" id="comboQueueDisplay">
+                <div class="combo-step-badge current">
+                  <span>1. BossSwordAttack1</span>
+                  <span class="mono" style="color:var(--primary);">+10 DMG</span>
+                </div>
+                <div class="combo-step-badge">
+                  <span>2. BossSwordAttack2</span>
+                  <span class="mono">+10 DMG</span>
+                </div>
+                <div class="combo-step-badge">
+                  <span>3. RunAndJumpSwingDown</span>
+                  <span class="mono" style="color:var(--warning);">SPECIAL</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="sim-action-row">
+              <button class="action-btn" onclick="simulatePlayerAttack(35, 45)">
+                <i data-lucide="sword" style="width:14px;height:14px;"></i> Deal Player Strike (-35 HP, +45 Stagger)
+              </button>
+              <button class="action-btn" onclick="resetBossSimulation()">
+                <i data-lucide="rotate-ccw" style="width:14px;height:14px;"></i> Reset Boss
+              </button>
+            </div>
+          </div>
+
+          <!-- Boss Behavioral Telemetry -->
+          <div class="panel" style="display:flex;flex-direction:column;justify-content:space-between;">
+            <div>
+              <div class="section-meta-row">
+                <span class="label-badge cyan mono">RUNTIME TELEMETRY</span>
+                <span class="label-badge sage mono" id="bossStatePill">CURRENT STATE: IDLE</span>
+              </div>
+              <h3 style="font-size:1.15rem;margin:var(--space-sm) 0 var(--space-xs) 0;">Decoupled ScriptableObject Graph</h3>
+              <p style="font-size:0.92rem;">
+                Each phase in <code>BossPhaseStats.cs</code> declares a direct reference to its succeeding phase via <code>public BossPhaseStats nextPhaseStats</code>. The state machine monitors remaining health; when current phase health reaches 0, the boss does not instantiate a separate entity—it transitions cleanly into <code>BossStaggerState</code> and loads the next phase asset.
+              </p>
+
+              <div class="callout-box">
+                <div class="callout-title"><i data-lucide="terminal" style="width:14px;height:14px;"></i> State Machine Event Log</div>
+                <div id="bossEventLog" class="mono" style="font-size:0.78rem;color:var(--on-surface-variant);max-height:140px;overflow-y:auto;display:flex;flex-direction:column;gap:2px;">
+                  <div>[0.00s] Boss initialized with Boss1Phase1.asset</div>
+                  <div>[0.00s] Right hand weapon instantiated: Greatsword</div>
+                  <div>[0.00s] State transition -> BossIdleState</div>
+                </div>
+              </div>
+            </div>
+
+            <div class="panel-subtle" style="font-size:0.85rem;">
+              <strong style="color:var(--on-surface);">Key Architectural Benefit:</strong> Weapon colliders are toggled via sub-frame animation events in <code>AttackColliderHandler.cs</code>, ensuring damage can only trigger during the active physical swing arcs, eliminating phantom hitbox clipping.
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Boss Tab 2: Flowchart -->
+      <div id="bossTabFlowchart" style="display:none;">
+        <div class="panel">
+          <div style="margin-bottom:var(--space-md);">
+            <h3 style="font-size:1.15rem;">FSM State Transition Topology</h3>
+            <p style="font-size:0.92rem;">The <code>BossStateMachine</code> inherits from a shared base state machine architecture, decoupling NavMesh pathfinding from animation crossfades and hitbox timings.</p>
+          </div>
+          <div class="flowchart-canvas">
+            <div class="flow-node active-node">
+              <div class="node-header"><i data-lucide="compass" style="width:14px;height:14px;color:var(--primary);"></i> 1. BossIdleState</div>
+              <div class="node-body">Evaluates distance to Player. If player is within detection radius, computes NavMesh trajectory and transitions to Move.</div>
+            </div>
+            <div class="flow-node">
+              <div class="node-header"><i data-lucide="footprints" style="width:14px;height:14px;color:var(--tertiary);"></i> 2. BossMoveState</div>
+              <div class="node-body">Executes pathfinding via NavMeshAgent using <code>PhaseSpeed</code>. When in melee or special attack range, switches to Attack.</div>
+            </div>
+            <div class="flow-node">
+              <div class="node-header"><i data-lucide="zap" style="width:14px;height:14px;color:var(--warning);"></i> 3. BossAttackState</div>
+              <div class="node-body">Sequences light vs heavy attacks based on <code>lightAttacksBeforeHeaveyAttacks</code>. Triggers animation hash and collider frames.</div>
+            </div>
+            <div class="flow-node">
+              <div class="node-header"><i data-lucide="target" style="width:14px;height:14px;color:var(--data-4);"></i> 4. BossImpactState</div>
+              <div class="node-body">Handles hit recovery when receiving player thrust or heavy blows without crossing stagger threshold.</div>
+            </div>
+            <div class="flow-node">
+              <div class="node-header"><i data-lucide="shield-alert" style="width:14px;height:14px;color:var(--error);"></i> 5. BossStaggerState</div>
+              <div class="node-body">Invoked when stagger meter hits <code>PhaseStaggerNeeded</code>. Boss is incapacitated for vulnerable counter-attack window.</div>
+            </div>
+            <div class="flow-node active-node">
+              <div class="node-header"><i data-lucide="refresh-cw" style="width:14px;height:14px;color:var(--primary);"></i> 6. PhaseTransition</div>
+              <div class="node-body">Triggered on 0 HP. Replaces weapons, updates speeds/combos via <code>nextPhaseStats</code>, and triggers transition sequence.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Boss Tab 3: Code Viewer -->
+      <div id="bossTabCode" style="display:none;">
+        <div class="code-window">
+          <div class="code-top-bar">
+            <div class="code-tab-list">
+              <button class="code-file-btn active" onclick="switchBossCode('stats')">BossPhaseStats.cs</button>
+              <button class="code-file-btn" onclick="switchBossCode('collider')">AttackColliderHandler.cs</button>
+              <button class="code-file-btn" onclick="switchBossCode('damage')">DealDamage.cs</button>
+            </div>
+            <span>UNITY C# / SCRIPTABLEOBJECT</span>
+          </div>
+          <pre class="code-block" id="bossCodeBlock"><code><span class="cmt">// Data container defining phase stats and linking to the next phase</span>
+[<span class="typ">CreateAssetMenu</span>(fileName = <span class="str">"BossPhaseStates"</span>, menuName = <span class="str">"Boss/Create New Phase Stats"</span>)]
+[<span class="typ">System</span>.<span class="typ">Serializable</span>]
+<span class="kw">public class</span> <span class="typ">BossPhaseStats</span> : <span class="typ">ScriptableObject</span>
+{
+    [<span class="typ">field</span>: <span class="typ">SerializeField</span>] <span class="kw">public int</span> <span class="fn">BaseDamage</span> { <span class="kw">get</span>; <span class="kw">private set</span>; }
+    [<span class="typ">field</span>: <span class="typ">SerializeField</span>] <span class="kw">public float</span> <span class="fn">PhaseStaggerNeeded</span> { <span class="kw">get</span>; <span class="kw">private set</span>; } = <span class="num">100</span>;
+    [<span class="typ">field</span>: <span class="typ">SerializeField</span>] <span class="kw">public float</span> <span class="fn">PhaseSpeed</span> { <span class="kw">get</span>; <span class="kw">private set</span>; } = <span class="num">5</span>;
+    
+    <span class="cmt">// Linked graph of phase data</span>
+    [<span class="typ">field</span>: <span class="typ">SerializeField</span>] <span class="kw">public</span> <span class="typ">BossPhaseStats</span> <span class="fn">nextPhaseStats</span> { <span class="kw">get</span>; <span class="kw">private set</span>; }
+    [<span class="typ">field</span>: <span class="typ">SerializeField</span>] <span class="kw">public</span> <span class="typ">BossTransitionPhase</span> <span class="fn">bossTransitionPhase</span> { <span class="kw">get</span>; <span class="kw">private set</span>; }
+    
+    [<span class="typ">field</span>: <span class="typ">SerializeField</span>] <span class="kw">public int</span> <span class="fn">startingPhaseHealth</span> { <span class="kw">get</span>; <span class="kw">private set</span>; }
+    [<span class="typ">field</span>: <span class="typ">SerializeField</span>] <span class="kw">public</span> <span class="typ">List</span>&lt;<span class="typ">BossAnimationSequence</span>&gt; <span class="fn">normalAttacks</span> { <span class="kw">get</span>; <span class="kw">private set</span>; }
+    [<span class="typ">field</span>: <span class="typ">SerializeField</span>] <span class="kw">public</span> <span class="typ">List</span>&lt;<span class="typ">BossAnimationSequence</span>&gt; <span class="fn">specialAttacks</span> { <span class="kw">get</span>; <span class="kw">private set</span>; }
+    
+    [<span class="typ">field</span>: <span class="typ">SerializeField</span>] <span class="kw">public</span> <span class="typ">GameObject</span> <span class="fn">LeftHandWeapon</span> { <span class="kw">get</span>; <span class="kw">private set</span>; }
+    [<span class="typ">field</span>: <span class="typ">SerializeField</span>] <span class="kw">public</span> <span class="typ">GameObject</span> <span class="fn">RightHandWeapon</span> { <span class="kw">get</span>; <span class="kw">private set</span>; }
+    [<span class="typ">field</span>: <span class="typ">SerializeField</span>] <span class="kw">public int</span> <span class="fn">lightAttacksBeforeHeaveyAttacks</span> { <span class="kw">get</span>; <span class="kw">private set</span>; }
+    [<span class="typ">field</span>: <span class="typ">SerializeField</span>] <span class="kw">public float</span> <span class="fn">specialAttackRange</span> { <span class="kw">get</span>; <span class="kw">private set</span>; } = <span class="num">15</span>;
+}</code></pre>
+        </div>
+      </div>
+    </section>
+
+    <!-- System 2: Custom Quest & Dialogue Framework -->
+    <section class="section-wrap" id="questSystem">
+      <div class="section-header">
+        <div class="section-meta-row">
+          <span class="label-badge cyan mono">SYSTEM ARCHITECTURE 02</span>
+          <span class="label-badge sage mono">EVENT-DRIVEN & POLYMORPHIC</span>
+        </div>
+        <h2 class="section-title">Custom Quest & Dialogue Framework</h2>
+        <p class="section-desc">
+          Engineered from scratch to replace monolithic quest tables. Supports sequential and non-sequential goals, polymorphic goal evaluation, decoupled event listening, and automatic NPC dialogue state integration.
+        </p>
+      </div>
+
+      <div class="tab-bar">
+        <button class="tab-trigger active" onclick="switchQuestTab('simulator')"><i data-lucide="play-circle" style="width:14px;height:14px;"></i> Interactive Quest Workbench</button>
+        <button class="tab-trigger" onclick="switchQuestTab('dialogue')"><i data-lucide="message-square" style="width:14px;height:14px;"></i> NPC Dialogue FSM Flow</button>
+        <button class="tab-trigger" onclick="switchQuestTab('code')"><i data-lucide="code-2" style="width:14px;height:14px;"></i> Framework Source Code</button>
+      </div>
+
+      <!-- Quest Tab 1: Simulator -->
+      <div id="questTabSimulator">
+        <div class="quest-simulator-grid">
+          <div class="quest-list-panel">
+            <span class="form-label">Available Quests in World (ScriptableObject Instances)</span>
+            
+            <div class="quest-item-card selected" id="questCard0" onclick="selectQuestItem(0)">
+              <div class="quest-header-line">
+                <span class="quest-title-text">Flowers For Grandma</span>
+                <span class="label-badge sage">COLLECTION • 1 ITEM</span>
+              </div>
+              <p style="font-size:0.84rem;margin:0;">Collect grandma's favorite flower from the village outskirts. Turn in to Grandma.</p>
+              <div class="mono" style="font-size:0.75rem;color:var(--primary);margin-top:2px;">Status: <span id="qStatus0">Active (0/1 Flowers)</span> • Reward: 300 XP</div>
+            </div>
+
+            <div class="quest-item-card" id="questCard1" onclick="selectQuestItem(1)">
+              <div class="quest-header-line">
+                <span class="quest-title-text">Kill Some Rats (Part 1)</span>
+                <span class="label-badge cyan">KILL • 3 ENEMIES</span>
+              </div>
+              <p style="font-size:0.84rem;margin:0;">Cull the infestation threatening the merchant path. Non-sequential tracking.</p>
+              <div class="mono" style="font-size:0.75rem;color:var(--on-surface-variant);margin-top:2px;">Status: <span id="qStatus1">Available</span> • Reward: 100 XP</div>
+            </div>
+
+            <div class="quest-item-card" id="questCard2" onclick="selectQuestItem(2)">
+              <div class="quest-header-line">
+                <span class="quest-title-text">King of the Forest</span>
+                <span class="label-badge amber">BOSS KILL • 1 ENEMY</span>
+              </div>
+              <p style="font-size:0.84rem;margin:0;">Venture into the den and execute the Rat King boss. Unlocks after rat trials.</p>
+              <div class="mono" style="font-size:0.75rem;color:var(--on-surface-variant);margin-top:2px;">Status: <span id="qStatus2">Available</span> • Reward: 100 XP</div>
+            </div>
+
+            <div class="quest-item-card" id="questCard3" onclick="selectQuestItem(3)">
+              <div class="quest-header-line">
+                <span class="quest-title-text">Let There Be Light</span>
+                <span class="label-badge muted">DESTINATION TRIGGER</span>
+              </div>
+              <p style="font-size:0.84rem;margin:0;">Reach the TopOfElevatorDestination in Scene 1 to restore generator power.</p>
+              <div class="mono" style="font-size:0.75rem;color:var(--on-surface-variant);margin-top:2px;">Status: <span id="qStatus3">Available</span> • Reward: 100 XP</div>
+            </div>
+          </div>
+
+          <!-- Quest Actions & Dialogue Console -->
+          <div class="dialog-console">
+            <div>
+              <div class="section-meta-row">
+                <span class="label-badge cyan mono" id="activeNpcBadge">NPC: GRANDMA</span>
+                <span class="label-badge muted mono" id="questGoalTypeBadge">GOAL TYPE: ITEM</span>
+              </div>
+              <div style="margin-top:var(--space-xs);">
+                <div class="dialog-speaker" id="dialogSpeakerText">Grandma</div>
+                <div class="dialog-bubble" id="dialogBubbleText">
+                  "I would love to see my favorite flower again... It's been so long since I walked through the valley..."
+                </div>
+              </div>
+            </div>
+
+            <div class="panel-subtle">
+              <span class="form-label">Simulate World Events (Event Subscription Trigger)</span>
+              <div style="display:flex;flex-direction:column;gap:var(--space-xs);margin-top:var(--space-xs);">
+                <button class="action-btn" id="eventSimBtn" onclick="fireActiveQuestEvent()">
+                  <i data-lucide="plus-circle" style="width:14px;height:14px;"></i> Loot Flower Object (QuestItem.LootedItem)
+                </button>
+                <button class="action-btn primary" id="turnInBtn" onclick="turnInActiveQuest()" disabled>
+                  <i data-lucide="check" style="width:14px;height:14px;"></i> Turn In Quest to NPC
+                </button>
+              </div>
+            </div>
+
+            <div class="panel-subtle" style="font-size:0.8rem;font-family:var(--font-label);line-height:1.4;">
+              <span style="color:var(--primary);">Event Decoupling:</span> <code>QuestInventory</code> subscribes to static C# actions: <code>Health.OnDeath += UpdateQuestAmountNeededDictionary</code> and <code>QuestItem.LootedItem += UpdateQuestAmountNeededDictionary</code>. Enemies and items have zero hardcoded dependencies on quests.
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Quest Tab 2: Dialogue Flow -->
+      <div id="questTabDialogue" style="display:none;">
+        <div class="panel">
+          <h3 style="font-size:1.15rem;margin-bottom:var(--space-sm);">NPC Interaction & Turn-in Pipeline</h3>
+          <p style="font-size:0.92rem;margin-bottom:var(--space-md);">
+            When the player interacts with an NPC, the NPC enters <code>NPCDialogState</code>, executes <code>FacePlayer()</code>, triggers the talking animation blend, and evaluates quest conditions upon conversation termination.
+          </p>
+          <div class="flowchart-canvas">
+            <div class="flow-node">
+              <div class="node-header"><i data-lucide="user-check" style="width:14px;height:14px;color:var(--primary);"></i> Player Interaction</div>
+              <div class="node-body">Player presses [E] via Unity Input System <code>InputReader.InteractionEvent</code>. NPC transitions from <code>NPCIdleState</code>.</div>
+            </div>
+            <div class="flow-node active-node">
+              <div class="node-header"><i data-lucide="message-square" style="width:14px;height:14px;color:var(--tertiary);"></i> NPCDialogState.Enter()</div>
+              <div class="node-body">Calls <code>FacePlayer()</code>. Crossfades into <code>TALKING_ANIMATION_HASH</code>. Registers <code>DialogueComplete</code> callback.</div>
+            </div>
+            <div class="flow-node active-node">
+              <div class="node-header"><i data-lucide="award" style="width:14px;height:14px;color:var(--warning);"></i> NPCDialogState.Exit()</div>
+              <div class="node-body">If <code>PlayerHasQuestsReadyToTurnIn()</code>, grants rewards and turns in. Else if <code>HasQuestToGive()</code>, transfers quest.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Quest Tab 3: Code -->
+      <div id="questTabCode" style="display:none;">
+        <div class="code-window">
+          <div class="code-top-bar">
+            <div class="code-tab-list">
+              <button class="code-file-btn active" onclick="switchQuestCode('quest')">Quest.cs</button>
+              <button class="code-file-btn" onclick="switchQuestCode('inventory')">QuestInventory.cs</button>
+              <button class="code-file-btn" onclick="switchQuestCode('dialogstate')">NPCDialogState.cs</button>
+            </div>
+            <span>UNITY C# / QUEST ENGINE</span>
+          </div>
+          <pre class="code-block" id="questCodeBlock"><code>[<span class="typ">CreateAssetMenu</span>(fileName = <span class="str">"New Quest"</span>, menuName = <span class="str">"Quest"</span>), <span class="typ">Serializable</span>]
+<span class="kw">public class</span> <span class="typ">Quest</span> : <span class="typ">ScriptableObject</span>
+{
+    [<span class="typ">field</span>: <span class="typ">SerializeField</span>] <span class="kw">public string</span> <span class="fn">QuestName</span> { <span class="kw">get</span>; <span class="kw">private set</span>; }
+    [<span class="typ">field</span>: <span class="typ">SerializeField</span>] <span class="kw">public string</span> <span class="fn">QuestDescription</span> { <span class="kw">get</span>; <span class="kw">private set</span>; }
+    
+    <span class="cmt">// Toggle allowing linear progression or open simultaneous goals</span>
+    [<span class="typ">field</span>: <span class="typ">SerializeField</span>] <span class="kw">public bool</span> <span class="fn">GoalsAreSequential</span> { <span class="kw">get</span>; <span class="kw">private set</span>; }
+    
+    [<span class="typ">field</span>: <span class="typ">SerializeField</span>] <span class="kw">public</span> <span class="typ">List</span>&lt;<span class="typ">Quest</span>.<span class="typ">Goal</span>&gt; <span class="fn">QuestGoals</span> { <span class="kw">get</span>; <span class="kw">private set</span>; } = <span class="kw">new</span>();
+    [<span class="typ">field</span>: <span class="typ">SerializeField</span>] <span class="kw">public</span> <span class="typ">List</span>&lt;<span class="typ">Quest</span>&gt; <span class="fn">UnlockQuests</span> { <span class="kw">get</span>; <span class="kw">private set</span>; } = <span class="kw">new</span>();
+    
+    [<span class="typ">field</span>: <span class="typ">SerializeField</span>] <span class="kw">public</span> <span class="typ">String</span> <span class="fn">QuestHolderUniqueIdentifier</span> { <span class="kw">get</span>; <span class="kw">private set</span>; }
+    [<span class="typ">field</span>: <span class="typ">SerializeField</span>] <span class="kw">public</span> <span class="typ">String</span> <span class="fn">QuestHolderForTurnInUniqueIdentifier</span> { <span class="kw">get</span>; <span class="kw">private set</span>; }
+    
+    [<span class="typ">field</span>: <span class="typ">SerializeField</span>] <span class="kw">public</span> <span class="typ">Dialogue</span> <span class="fn">giveQuestDialog</span> { <span class="kw">get</span>; <span class="kw">private set</span>; }
+    [<span class="typ">field</span>: <span class="typ">SerializeField</span>] <span class="kw">public</span> <span class="typ">Dialogue</span> <span class="fn">turnInQuestDialog</span> { <span class="kw">get</span>; <span class="kw">private set</span>; }
+}</code></pre>
+        </div>
+      </div>
+    </section>
+
+    <!-- System 3: JSON Save & Persistence System -->
+    <section class="section-wrap" id="saveSystem">
+      <div class="section-header">
+        <div class="section-meta-row">
+          <span class="label-badge cyan mono">SYSTEM ARCHITECTURE 03</span>
+          <span class="label-badge muted mono">NEWTONSOFT.JSON / JTOKEN BRIDGE</span>
+        </div>
+        <h2 class="section-title">Interface-Driven JSON Save Architecture</h2>
+        <p class="section-desc">
+          Robust state serialization built upon the <code>ISaveable</code> interface. Captures world state, quest completion counters, AudioMixer decibel profiles, player transforms, and inventory into indented JSON with asynchronous scene restoration.
+        </p>
+      </div>
+
+      <div class="json-sandbox-grid">
+        <!-- Interactive Controls -->
+        <div class="json-controls-form">
+          <div class="section-meta-row">
+            <span class="form-label">Live World State Adjuster</span>
+            <span class="label-badge sage mono">ISaveable Entity</span>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="sliderMaster">Master Audio Bus Volume</label>
+            <div class="slider-row">
+              <input type="range" id="sliderMaster" class="slider-input" min="-40" max="0" value="-6" oninput="updateJsonLive()">
+              <span class="slider-val-readout" id="lblMaster">-6 dB</span>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="sliderSfx">SoundFX Audio Bus Volume</label>
+            <div class="slider-row">
+              <input type="range" id="sliderSfx" class="slider-input" min="-40" max="0" value="-12" oninput="updateJsonLive()">
+              <span class="slider-val-readout" id="lblSfx">-12 dB</span>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="selectSceneIndex">Current Active Scene Build Index</label>
+            <select id="selectSceneIndex" onchange="updateJsonLive()" style="background:var(--surface-container-low);color:var(--on-surface);border:var(--hairline);padding:var(--space-xs) var(--space-sm);font-family:var(--font-label);border-radius:var(--rounded-sm);">
+              <option value="1">Scene 1: Starting Village (Hub)</option>
+              <option value="2">Scene 2: Outskirts & Elevator Pass</option>
+              <option value="3">Scene 3: Deep Caverns & Boss Arena</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Completed Quests (JToken Array)</label>
+            <div style="display:flex;flex-direction:column;gap:var(--space-xs);font-size:0.85rem;">
+              <label style="display:flex;align-items:center;gap:var(--space-xs);cursor:pointer;">
+                <input type="checkbox" id="chkQ1" checked onchange="updateJsonLive()"> Flowers For Grandma (GrandmaQuest)
+              </label>
+              <label style="display:flex;align-items:center;gap:var(--space-xs);cursor:pointer;">
+                <input type="checkbox" id="chkQ2" checked onchange="updateJsonLive()"> Kill Some Rats 1 (KillRats1Quest)
+              </label>
+              <label style="display:flex;align-items:center;gap:var(--space-xs);cursor:pointer;">
+                <input type="checkbox" id="chkQ3" onchange="updateJsonLive()"> King of the Forest (KillRatKingQuest)
+              </label>
+            </div>
+          </div>
+
+          <div style="display:flex;gap:var(--space-xs);margin-top:var(--space-xs);">
+            <button class="action-btn primary" onclick="triggerSavePulse()">
+              <i data-lucide="save" style="width:14px;height:14px;"></i> SaveToFile("GameSave.json")
+            </button>
+            <button class="action-btn" onclick="restoreDefaultJson()">
+              <i data-lucide="rotate-ccw" style="width:14px;height:14px;"></i> Restore State
+            </button>
+          </div>
+        </div>
+
+        <!-- Indented JSON Display -->
+        <div class="code-window">
+          <div class="code-top-bar">
+            <span>persistentDataPath/GameSave.json</span>
+            <span class="label-badge cyan mono" id="jsonStateIndicator">JSON CAPTURE READY</span>
+          </div>
+          <pre class="code-block" id="jsonCodeViewer"><code>{
+  "lastSceneBuildIndex": 1,
+  "AudioMixer_Settings": {
+    "MasterVolume": -6.0,
+    "MusicVolume": -10.0,
+    "SoundFXVolume": -12.0
+  },
+  "QuestInventory_Guid_86db4c": {
+    "finishedQuests": [
+      "Flowers For Grandma",
+      "Kill Some Rats 1"
+    ],
+    "activeQuests": [],
+    "amountRemaining": {}
+  },
+  "PlayerTransform_Guid_player": {
+    "x": -177.55,
+    "y": 28.37,
+    "z": 143.93
+  }
+}</code></pre>
+        </div>
+      </div>
+    </section>
+
+    <!-- System 4: 3D Character Art Pipeline -->
+    <section class="section-wrap" id="characterArt">
+      <div class="section-header">
+        <div class="section-meta-row">
+          <span class="label-badge sage mono">3D ART & ENGINE INTEGRATION</span>
+          <span class="label-badge muted mono">MAYA • ZBRUSH • SUBSTANCE • UNITY</span>
+        </div>
+        <h2 class="section-title">3D Character Art Pipeline & NPC Roster</h2>
+        <p class="section-desc">
+          Authored 5 complete NPC character models used throughout the title. Encompassed high-poly concept sculpting, low-poly retopology, PBR texturing, skeletal rigging, and Mecanim humanoid state machine binding.
+        </p>
+      </div>
+
+      <div class="character-art-grid">
+        <!-- 3D Interactive Viewport -->
+        <div class="viewport-container" aria-label="3D Character Model Viewport">
+          <div class="viewport-canvas-box" id="threeCanvasBox">
+            <div class="viewport-overlay-ui">
+              <span class="label-badge cyan mono" id="modelAssetTag">ASSET: FEMALE_NPC_BLACKSMITH</span>
+              <span class="mono" style="font-size:0.75rem;color:var(--on-surface-variant);">Click & Drag to Orbit 360°</span>
+            </div>
+          </div>
+          <div class="viewport-toolbar">
+            <div style="display:flex;align-items:center;gap:var(--space-sm);">
+              <button class="action-btn" style="height:28px;padding:0 var(--space-sm);" onclick="toggleWireframeMode()">
+                <i data-lucide="grid" style="width:12px;height:12px;"></i> Toggle Wireframe
+              </button>
+              <button class="action-btn" style="height:28px;padding:0 var(--space-sm);" onclick="toggleModelRotation()">
+                <i data-lucide="play" id="rotBtnIcon" style="width:12px;height:12px;"></i> Auto-Rotate
+              </button>
+            </div>
+            <div class="mono" id="polycountDisplay">TRIANGLES: 8,420 • BONES: 54</div>
+          </div>
+        </div>
+
+        <!-- Character Roster Selection & Specs -->
+        <div style="display:flex;flex-direction:column;gap:var(--space-md);">
+          <div class="npc-roster-list">
+            <div class="npc-card active" id="npcCard0" onclick="selectNpcAsset(0)">
+              <div>
+                <div class="npc-name">FemaleNPC2 (The Blacksmith)</div>
+                <div class="npc-role">Heavy apron, reinforced leather belts, steel gauntlets</div>
+              </div>
+              <span class="label-badge cyan mono">INSPECT</span>
+            </div>
+
+            <div class="npc-card" id="npcCard1" onclick="selectNpcAsset(1)">
+              <div>
+                <div class="npc-name">Gnome Victor (Town Engineer)</div>
+                <div class="npc-role">Mechanical backpack harness, brass goggles, tool belt</div>
+              </div>
+              <span class="label-badge muted mono">SELECT</span>
+            </div>
+
+            <div class="npc-card" id="npcCard2" onclick="selectNpcAsset(2)">
+              <div>
+                <div class="npc-name">MaleNpc2 (Marvin the Scavenger)</div>
+                <div class="npc-role">Weathered trenchcoat, utility canisters, scavenger gear</div>
+              </div>
+              <span class="label-badge muted mono">SELECT</span>
+            </div>
+
+            <div class="npc-card" id="npcCard3" onclick="selectNpcAsset(3)">
+              <div>
+                <div class="npc-name">Grandma (Village Elder)</div>
+                <div class="npc-role">Woven shawl, embroidered floral apron, elder silhouette</div>
+              </div>
+              <span class="label-badge muted mono">SELECT</span>
+            </div>
+
+            <div class="npc-card" id="npcCard4" onclick="selectNpcAsset(4)">
+              <div>
+                <div class="npc-name">Village Resident (Civic NPC)</div>
+                <div class="npc-role">Layered linen tunics, leather boots, commoner rig</div>
+              </div>
+              <span class="label-badge muted mono">SELECT</span>
+            </div>
+          </div>
+
+          <div class="panel-subtle" id="npcDetailBox">
+            <div class="section-meta-row" style="margin-bottom:var(--space-xs);">
+              <span class="label-badge sage mono">PIPELINE DETAILS</span>
+              <span class="mono" style="font-size:0.75rem;color:var(--primary);">4K PBR TEXTURE MAPS</span>
+            </div>
+            <p style="font-size:0.86rem;line-height:1.45;" id="npcDetailText">
+              Modeled specifically for the "TalkToBlacksmith" quest branch. Authored with high surface fidelity to withstand close-up dialogue camera angles, featuring custom normal bakes from high-poly sub-d meshes.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Subsystems Summary (Audio, Combat, Collision) -->
+    <section class="section-wrap">
+      <div class="section-header">
+        <div class="section-meta-row">
+          <span class="label-badge muted mono">ADDITIONAL SYSTEMS</span>
+          <span class="label-badge cyan mono">AUDIO & COMBAT UTILITIES</span>
+        </div>
+        <h2 class="section-title">Supporting Gameplay Subsystems</h2>
+        <p class="section-desc">Modular helper engines authored to support real-time combat feel, audio spatialization, and targeting.</p>
+      </div>
+
+      <div class="subsystem-grid">
+        <div class="subsystem-card">
+          <div class="subsystem-card-title">
+            <i data-lucide="volume-2" style="width:16px;height:16px;color:var(--primary);"></i>
+            <span>SoundFXManager.cs</span>
+          </div>
+          <div class="subsystem-card-desc">
+            Instantiates transient spatial AudioSources dynamically at world positions. Plays pitch-randomized sound effects and disposes game objects cleanly upon <code>clip.length</code> expiration to prevent memory leaks.
+          </div>
+        </div>
+
+        <div class="subsystem-card">
+          <div class="subsystem-card-title">
+            <i data-lucide="shield" style="width:16px;height:16px;color:var(--tertiary);"></i>
+            <span>AttackColliderHandler.cs</span>
+          </div>
+          <div class="subsystem-card-desc">
+            Tied directly to animation event curves. Toggles <code>damageDealingCollider.enabled</code> only during the active strike window to ensure zero ghost hits or double-hit registration on a single swing.
+          </div>
+        </div>
+
+        <div class="subsystem-card">
+          <div class="subsystem-card-title">
+            <i data-lucide="crosshair" style="width:16px;height:16px;color:var(--warning);"></i>
+            <span>TargetSeeker.cs</span>
+          </div>
+          <div class="subsystem-card-desc">
+            Manages lock-on targeting with Unity Cinemachine. Evaluates nearest viable targets within range, dynamically populates <code>CinemachineTargetGroup</code>, and detaches upon <code>Health.OnDeath</code> events.
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="site-footer">
+      <div class="footer-row">
+        <div>
+          <strong style="color:var(--on-surface);">Lance Harrington</strong> — Gameplay & Systems Engineer / 3D Character Artist
+          <div style="font-size:0.75rem;margin-top:2px;">Project: Iron Echoes: Zenus Uprising • Unity C# & 3D Art Pipeline</div>
+        </div>
+        <div style="display:flex;gap:var(--space-md);align-items:center;">
+          <span class="label-badge sage"><i data-lucide="shield-check" style="width:12px;height:12px;"></i> Verified Role Contributions</span>
+        </div>
+      </div>
+    </footer>
+
+  </main>
+
+  <api-shim></api-shim>
+  <script>
+    // --- Safe Initialization & Global State ---
+    let isSimulationPlaying = false;
+    let simProgress = 0; // 0 to 100
+    let simTimer = null;
+
+    // Presentation Chapters Data
+    const chapters = [
+      {
+        num: "CHAPTER 1 / 5",
+        title: "Project Introduction & Role Scope",
+        desc: `"Hello, my name is Lance Harrington and I am a programmer and character artist for Iron Echo's Zenus Uprising..."`,
+        time: "00:00 / 04:15",
+        pct: 0
+      },
+      {
+        num: "CHAPTER 2 / 5",
+        title: "Modular Boss & Enemy State Machines",
+        desc: `"I programmed the enemy and boss AI using custom state machines that were built with modularity in mind, allowing additional enemies to be added with ease..."`,
+        time: "00:52 / 04:15",
+        pct: 20
+      },
+      {
+        num: "CHAPTER 3 / 5",
+        title: "Custom Quest & Dialogue Framework",
+        desc: `"I created a custom questing and dialogue system from scratch that allows for sequential or non-sequential goals for different quest types and NPC state machines..."`,
+        time: "01:45 / 04:15",
+        pct: 40
+      },
+      {
+        num: "CHAPTER 4 / 5",
+        title: "JSON State Persistence Architecture",
+        desc: `"I implemented a JSON saving system that keeps track of quests, player stats and level, sound settings, environmental changes, and inventory..."`,
+        time: "02:40 / 04:15",
+        pct: 65
+      },
+      {
+        num: "CHAPTER 5 / 5",
+        title: "3D Character Art & Engine Integration",
+        desc: `"Finally, I created five NPC models that are all used throughout the game, from concept sculpt to rigging and Mecanim setup..."`,
+        time: "03:35 / 04:15",
+        pct: 85
+      }
+    ];
+
+    let currentChapterIndex = 0;
+
+    // Navigation Smooth Scroll
+    function scrollToSection(id) {
+      const el = document.getElementById(id);
+      if (el) {
+        el.scrollIntoView({ behavior: 'smooth' });
+      }
+      // Update nav button active states
+      const btns = document.querySelectorAll('.nav-btn');
+      btns.forEach(btn => btn.classList.remove('active'));
+      const activeBtn = Array.from(btns).find(btn => btn.getAttribute('onclick')?.includes(id));
+      if (activeBtn) activeBtn.classList.add('active');
+    }
+
+    // Presentation Player Logic
+    function updatePlayerDisplay() {
+      const ch = chapters[currentChapterIndex];
+      const badge = document.getElementById('playerChapterBadge');
+      const title = document.getElementById('playerChapterTitle');
+      const desc = document.getElementById('playerChapterDesc');
+      const timecode = document.getElementById('timecodeDisplay');
+      const scrubberFill = document.getElementById('scrubberFill');
+
+      if (badge) badge.textContent = ch.num;
+      if (title) title.textContent = ch.title;
+      if (desc) desc.textContent = ch.desc;
+      if (timecode) timecode.textContent = ch.time;
+      if (scrubberFill) scrubberFill.style.width = ch.pct + '%';
+
+      // Update chapter pills
+      const pills = document.querySelectorAll('.chapter-pill');
+      pills.forEach((p, idx) => {
+        if (idx === currentChapterIndex) {
+          p.classList.add('active');
+        } else {
+          p.classList.remove('active');
+        }
+      });
+    }
+
+    function selectChapter(idx) {
+      if (idx >= 0 && idx < chapters.length) {
+        currentChapterIndex = idx;
+        simProgress = chapters[idx].pct;
+        updatePlayerDisplay();
+      }
+    }
+
+    function togglePlaySimulation() {
+      isSimulationPlaying = !isSimulationPlaying;
+      const playIcon = document.getElementById('playIcon');
+      const statusBadge = document.getElementById('playerStatusBadge');
+
+      if (isSimulationPlaying) {
+        if (playIcon) playIcon.setAttribute('data-lucide', 'pause');
+        if (statusBadge) {
+          statusBadge.textContent = 'PLAYING • LIVE SYNC';
+          statusBadge.className = 'label-badge sage';
+        }
+        startSimulationTimer();
+      } else {
+        if (playIcon) playIcon.setAttribute('data-lucide', 'play');
+        if (statusBadge) {
+          statusBadge.textContent = 'PAUSED';
+          statusBadge.className = 'label-badge muted';
+        }
+        clearInterval(simTimer);
+      }
+      lucide.createIcons();
+    }
+
+    function startSimulationTimer() {
+      clearInterval(simTimer);
+      simTimer = setInterval(() => {
+        simProgress += 1.5;
+        if (simProgress > 100) {
+          simProgress = 0;
+          currentChapterIndex = 0;
+        }
+
+        // Check chapter threshold
+        for (let i = chapters.length - 1; i >= 0; i--) {
+          if (simProgress >= chapters[i].pct) {
+            if (currentChapterIndex !== i) {
+              currentChapterIndex = i;
             }
+            break;
+          }
+        }
 
-            class GlowingOrb {
-                constructor() {
-                    this.x = Math.random() * canvas.width;
-                    this.y = Math.random() * canvas.height;
-                    this.size = MIN_SIZE + Math.random() * (MAX_SIZE - MIN_SIZE);
-                    this.baseAlpha = 0.15 + Math.random() * 0.25; // Transparent glowing bases
-                    this.phaseOffset = Math.random() * Math.PI * 2;
-                    this.speedFactor = 0.0004 + Math.random() * 0.0006;
-                }
+        const scrubberFill = document.getElementById('scrubberFill');
+        if (scrubberFill) scrubberFill.style.width = simProgress + '%';
 
-                draw(time) {
-                    // DIAGONAL WAVE MOTION MATH (Sinusoidal ripple moving diagonally)
-                    const waveIndex = (this.x * 0.002) + (this.y * 0.002) - (time * 1.5);
-                    const opacity = this.baseAlpha + 0.35 * Math.sin(waveIndex + this.phaseOffset);
+        const ch = chapters[currentChapterIndex];
+        const badge = document.getElementById('playerChapterBadge');
+        const title = document.getElementById('playerChapterTitle');
+        const desc = document.getElementById('playerChapterDesc');
+        if (badge) badge.textContent = ch.num;
+        if (title) title.textContent = ch.title;
+        if (desc) desc.textContent = ch.desc;
 
-                    ctx.beginPath();
-                    ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+        // update chapter pills
+        const pills = document.querySelectorAll('.chapter-pill');
+        pills.forEach((p, idx) => {
+          if (idx === currentChapterIndex) p.classList.add('active');
+          else p.classList.remove('active');
+        });
+      }, 300);
+    }
 
-                    // Rich ambient color using variables / modern palette (glow filter)
-                    ctx.shadowBlur = this.size * 2.5;
-                    ctx.shadowColor = 'rgba(59, 130, 246, 0.5)';
-                    ctx.fillStyle = 'rgba(139, 92, 246, ' + Math.max(0.05, Math.min(0.85, opacity)) + ')';
-                    ctx.fill();
+    function restartSimulation() {
+      simProgress = 0;
+      currentChapterIndex = 0;
+      updatePlayerDisplay();
+      if (isSimulationPlaying) {
+        startSimulationTimer();
+      }
+    }
 
-                    // Reset shadow state for fast rendering cycles
-                    ctx.shadowBlur = 0;
+    function handleScrubberClick(event) {
+      const bar = document.getElementById('scrubberBar');
+      if (!bar) return;
+      const rect = bar.getBoundingClientRect();
+      const clickX = event.clientX - rect.left;
+      const pct = Math.max(0, Math.min(100, (clickX / rect.width) * 100));
+      simProgress = pct;
+
+      for (let i = chapters.length - 1; i >= 0; i--) {
+        if (pct >= chapters[i].pct) {
+          currentChapterIndex = i;
+          break;
+        }
+      }
+      updatePlayerDisplay();
+    }
+
+    // --- Boss Fight System Interactive Logic ---
+    const bossPhases = {
+      1: {
+        name: "Boss1Phase1 (Broadsword Stance)",
+        maxHealth: 200,
+        staggerMax: 200,
+        damage: 10,
+        speed: "4.0 m/s",
+        ratio: "3 : 1",
+        range: "15.0m",
+        weapon: "Right Hand: Broadsword",
+        combos: [
+          { name: "1. BossSwordAttack1", dmg: "+10 DMG", special: false },
+          { name: "2. BossSwordAttack2", dmg: "+10 DMG", special: false },
+          { name: "3. RunAndJumpSwingDown", dmg: "SPECIAL", special: true }
+        ]
+      },
+      2: {
+        name: "Boss1Phase2 (Dual Wield Blades)",
+        maxHealth: 400,
+        staggerMax: 200,
+        damage: 15,
+        speed: "5.0 m/s",
+        ratio: "3 : 1",
+        range: "15.0m",
+        weapon: "Dual: Twin Heavy Cutlasses",
+        combos: [
+          { name: "1. DueldWieldCombo_1", dmg: "+15 DMG", special: false },
+          { name: "2. DueldWieldCombo_2", dmg: "+15 DMG", special: false },
+          { name: "3. DueldWieldCombo_3", dmg: "HEAVY COMBO", special: true }
+        ]
+      },
+      3: {
+        name: "Boss1Phase3 (Berserk Frenzy)",
+        maxHealth: 500,
+        staggerMax: 300,
+        damage: 20,
+        speed: "6.0 m/s",
+        ratio: "2 : 2",
+        range: "18.0m",
+        weapon: "Enchanted Dual Blades (Infused)",
+        combos: [
+          { name: "1. FrenziedFlurry_1", dmg: "+20 DMG", special: false },
+          { name: "2. SpinCleaveSweep", dmg: "+20 DMG", special: false },
+          { name: "3. LeapingGroundShatter", dmg: "ULTIMATE", special: true }
+        ]
+      }
+    };
+
+    let activeBossPhaseNum = 1;
+    let currentBossHealth = 200;
+    let currentBossStagger = 0;
+
+    function selectBossPhase(num) {
+      activeBossPhaseNum = num;
+      const data = bossPhases[num];
+      currentBossHealth = data.maxHealth;
+      currentBossStagger = 0;
+
+      // Update Phase Buttons
+      [1, 2, 3].forEach(n => {
+        const btn = document.getElementById(`phaseBtn${n}`);
+        if (btn) {
+          if (n === num) btn.classList.add('active');
+          else btn.classList.remove('active');
+        }
+      });
+
+      // Update Parameters
+      const pDmg = document.getElementById('paramDmg');
+      const pSpeed = document.getElementById('paramSpeed');
+      const pRatio = document.getElementById('paramRatio');
+      const pRange = document.getElementById('paramRange');
+      const pWep = document.getElementById('paramWeapon');
+
+      if (pDmg) pDmg.textContent = data.damage;
+      if (pSpeed) pSpeed.textContent = data.speed;
+      if (pRatio) pRatio.textContent = data.ratio;
+      if (pRange) pRange.textContent = data.range;
+      if (pWep) pWep.textContent = data.weapon;
+
+      // Update Combos
+      const comboQueue = document.getElementById('comboQueueDisplay');
+      if (comboQueue) {
+        comboQueue.innerHTML = data.combos.map((c, i) => `
+          <div class="combo-step-badge ${i === 0 ? 'current' : ''}">
+            <span>${c.name}</span>
+            <span class="mono" style="color:${c.special ? 'var(--warning)' : 'var(--primary)'};">${c.dmg}</span>
+          </div>
+        `).join('');
+      }
+
+      updateBossBars();
+      logBossEvent(`Switched ScriptableObject to Boss1Phase${num}.asset`);
+    }
+
+    function updateBossBars() {
+      const data = bossPhases[activeBossPhaseNum];
+      const hText = document.getElementById('bossHealthText');
+      const hFill = document.getElementById('bossHealthFill');
+      const sText = document.getElementById('bossStaggerText');
+      const sFill = document.getElementById('bossStaggerFill');
+      const statePill = document.getElementById('bossStatePill');
+
+      const hPct = Math.max(0, Math.min(100, (currentBossHealth / data.maxHealth) * 100));
+      const sPct = Math.max(0, Math.min(100, (currentBossStagger / data.staggerMax) * 100));
+
+      if (hText) hText.textContent = `${Math.ceil(currentBossHealth)} / ${data.maxHealth} HP`;
+      if (hFill) hFill.style.width = hPct + '%';
+
+      if (sText) sText.textContent = `${Math.ceil(currentBossStagger)} / ${data.staggerMax}`;
+      if (sFill) sFill.style.width = sPct + '%';
+
+      if (statePill) {
+        if (currentBossStagger >= data.staggerMax) {
+          statePill.textContent = 'STATE: STAGGERED (VULNERABLE)';
+          statePill.className = 'label-badge amber mono';
+        } else if (currentBossHealth <= 0) {
+          statePill.textContent = 'STATE: PHASE TRANSITION';
+          statePill.className = 'label-badge cyan mono';
+        } else {
+          statePill.textContent = 'STATE: ENGAGED / COMBAT';
+          statePill.className = 'label-badge sage mono';
+        }
+      }
+    }
+
+    function simulatePlayerAttack(dmg, stagger) {
+      const data = bossPhases[activeBossPhaseNum];
+      currentBossHealth = Math.max(0, currentBossHealth - dmg);
+      currentBossStagger = Math.min(data.staggerMax, currentBossStagger + stagger);
+
+      logBossEvent(`Player Strike registered: -${dmg} HP, +${stagger} Stagger`);
+
+      if (currentBossStagger >= data.staggerMax) {
+        logBossEvent(`THRESHOLD EXCEEDED: Boss Stagger triggered! Entering BossStaggerState.`);
+      }
+
+      if (currentBossHealth <= 0) {
+        logBossEvent(`PHASE COMPLETE: Starting health reached 0. Querying nextPhaseStats.`);
+        if (activeBossPhaseNum < 3) {
+          setTimeout(() => {
+            selectBossPhase(activeBossPhaseNum + 1);
+            logBossEvent(`TRANSITION RESOLVED: Initialized Phase ${activeBossPhaseNum}.`);
+          }, 800);
+        } else {
+          logBossEvent(`ENCOUNTER CLEARED: Boss defeated.`);
+        }
+      }
+
+      updateBossBars();
+    }
+
+    function resetBossSimulation() {
+      selectBossPhase(1);
+      logBossEvent(`Simulation reset to initial state.`);
+    }
+
+    function logBossEvent(msg) {
+      const log = document.getElementById('bossEventLog');
+      if (log) {
+        const item = document.createElement('div');
+        const now = (Math.random() * 5 + 1).toFixed(2);
+        item.textContent = `[${now}s] ${msg}`;
+        log.appendChild(item);
+        log.scrollTop = log.scrollHeight;
+      }
+    }
+
+    // Boss Tabs Switching
+    function switchBossTab(tabName) {
+      const tabs = ['simulator', 'flowchart', 'code'];
+      tabs.forEach(t => {
+        const el = document.getElementById(`bossTab${t.charAt(0).toUpperCase() + t.slice(1)}`);
+        if (el) el.style.display = (t === tabName) ? 'block' : 'none';
+      });
+
+      const triggers = document.querySelectorAll('#bossSystem .tab-trigger');
+      triggers.forEach(tr => {
+        if (tr.getAttribute('onclick')?.includes(tabName)) {
+          tr.classList.add('active');
+        } else {
+          tr.classList.remove('active');
+        }
+      });
+    }
+
+    // Boss Code Snippets
+    const bossCodeSnippets = {
+      stats: `[CreateAssetMenu(fileName = "BossPhaseStates", menuName = "Boss/Create New Phase Stats")]
+[System.Serializable]
+public class BossPhaseStats : ScriptableObject
+{
+    [field: SerializeField] public int BaseDamage { get; private set; }
+    [field: SerializeField] public float PhaseStaggerNeeded { get; private set; } = 100;
+    [field: SerializeField] public float PhaseSpeed { get; private set; } = 5;
+    
+    // Linked graph of phase data
+    [field: SerializeField] public BossPhaseStats nextPhaseStats { get; private set; }
+    [field: SerializeField] public BossTransitionPhase bossTransitionPhase { get; private set; }
+    
+    [field: SerializeField] public int startingPhaseHealth { get; private set; }
+    [field: SerializeField] public List<BossAnimationSequence> normalAttacks { get; private set; }
+    [field: SerializeField] public List<BossAnimationSequence> specialAttacks { get; private set; }
+    
+    [field: SerializeField] public GameObject LeftHandWeapon { get; private set; }
+    [field: SerializeField] public GameObject RightHandWeapon { get; private set; }
+    [field: SerializeField] public int lightAttacksBeforeHeaveyAttacks { get; private set; }
+    [field: SerializeField] public float specialAttackRange { get; private set; } = 15;
+}`,
+      collider: `using UnityEngine;
+
+public class AttackColliderHandler : MonoBehaviour
+{
+    [SerializeField] DealDamage damageLogic;
+
+    // Called via Unity Animation Event on the first active weapon swing frame
+    public void TurnOnColliders()
+    {
+        damageLogic.damageDealingCollider.enabled = true;
+    }
+
+    // Called via Unity Animation Event at the end of the swing recovery
+    public void turnOffColliders()
+    {
+        damageLogic.damageDealingCollider.enabled = false;
+    }
+}`,
+      damage: `using UnityEngine;
+
+public class DealDamage : MonoBehaviour
+{
+    public Collider damageDealingCollider { get; private set; }
+
+    private void Awake()
+    {
+        damageDealingCollider = GetComponent<Collider>();
+        damageDealingCollider.enabled = false;
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        // Avoid self-damage or friendly fire
+        if (other.transform.TryGetComponent(out PlayerStateMachine player) && 
+            transform.GetComponentInParent<PlayerStateMachine>() != null)
+        {
+            return;
+        }
+        else if (other.TryGetComponent<Health>(out Health health))
+        {
+            damageDealingCollider.enabled = false; // Disarm immediately upon impact
+            health.RemoveHealth(10);
+        }
+    }
+}`
+    };
+
+    function switchBossCode(key) {
+      const block = document.getElementById('bossCodeBlock');
+      if (block && bossCodeSnippets[key]) {
+        block.textContent = bossCodeSnippets[key];
+      }
+      const btns = document.querySelectorAll('#bossTabCode .code-file-btn');
+      btns.forEach(b => {
+        if (b.getAttribute('onclick')?.includes(key)) b.classList.add('active');
+        else b.classList.remove('active');
+      });
+    }
+
+    // --- Quest Framework Interactive Logic ---
+    const questData = [
+      {
+        id: 0,
+        title: "Flowers For Grandma",
+        npc: "Grandma",
+        giverId: "Grandma",
+        type: "COLLECTION",
+        needed: 1,
+        current: 0,
+        reward: 300,
+        giveDialog: `"I would love to see my favorite flower again... It's been so long since I walked through the valley..."`,
+        turnInDialog: `"Oh my goodness!!!!! I knew there was a reason I keep you around!"`,
+        itemTag: "Flower Object"
+      },
+      {
+        id: 1,
+        title: "Kill Some Rats (Part 1)",
+        npc: "Merchant Brother",
+        giverId: "Town Merchant",
+        type: "KILL",
+        needed: 3,
+        current: 0,
+        reward: 100,
+        giveDialog: `"HEY! Can you do me a favor if you head out of town? Just need to clear out 3 aggressive vermin near the bridge."`,
+        turnInDialog: `"The deals done! Awesome! You took care of those rats? Even better!"`,
+        itemTag: "Rat Enemy"
+      },
+      {
+        id: 2,
+        title: "King of the Forest",
+        npc: "Forest Outcast",
+        giverId: "Forest Outcast",
+        type: "BOSS KILL",
+        needed: 1,
+        current: 0,
+        reward: 100,
+        giveDialog: `"Go kill the rat king for me deep in the timber thicket, and you will be a king!"`,
+        turnInDialog: `"YOU ARE A KING!! The forest is finally peaceful!"`,
+        itemTag: "Rat King Boss"
+      },
+      {
+        id: 3,
+        title: "Let There Be Light",
+        npc: "Gnome Victor",
+        giverId: "Gnome Victor",
+        type: "DESTINATION",
+        needed: 1,
+        current: 0,
+        reward: 100,
+        giveDialog: `"I'll meet you outside by the elevator. Reach the TopOfElevatorDestination to calibrate our survey dish."`,
+        turnInDialog: `"It looks like your software rebooted itself cleanly upon destination contact. Great work!"`,
+        itemTag: "Elevator Trigger"
+      }
+    ];
+
+    let selectedQuestIndex = 0;
+
+    function selectQuestItem(idx) {
+      selectedQuestIndex = idx;
+      const q = questData[idx];
+
+      // Update card styles
+      [0, 1, 2, 3].forEach(i => {
+        const c = document.getElementById(`questCard${i}`);
+        if (c) {
+          if (i === idx) c.classList.add('selected');
+          else c.classList.remove('selected');
+        }
+      });
+
+      // Update console
+      const activeNpcBadge = document.getElementById('activeNpcBadge');
+      const questGoalTypeBadge = document.getElementById('questGoalTypeBadge');
+      const dialogSpeaker = document.getElementById('dialogSpeakerText');
+      const dialogBubble = document.getElementById('dialogBubbleText');
+      const eventSimBtn = document.getElementById('eventSimBtn');
+      const turnInBtn = document.getElementById('turnInBtn');
+
+      if (activeNpcBadge) activeNpcBadge.textContent = `NPC: ${q.npc.toUpperCase()}`;
+      if (questGoalTypeBadge) questGoalTypeBadge.textContent = `GOAL TYPE: ${q.type}`;
+      if (dialogSpeaker) dialogSpeaker.textContent = q.npc;
+
+      if (q.current >= q.needed) {
+        if (dialogBubble) dialogBubble.textContent = q.turnInDialog;
+        if (turnInBtn) turnInBtn.disabled = false;
+      } else {
+        if (dialogBubble) dialogBubble.textContent = q.giveDialog;
+        if (turnInBtn) turnInBtn.disabled = true;
+      }
+
+      if (eventSimBtn) {
+        eventSimBtn.innerHTML = `<i data-lucide="plus-circle" style="width:14px;height:14px;"></i> Trigger ${q.itemTag} Event`;
+      }
+      lucide.createIcons();
+    }
+
+    function fireActiveQuestEvent() {
+      const q = questData[selectedQuestIndex];
+      if (q.current < q.needed) {
+        q.current++;
+        const statusSpan = document.getElementById(`qStatus${q.id}`);
+        if (statusSpan) {
+          if (q.current >= q.needed) {
+            statusSpan.textContent = `Ready for Turn-in (${q.current}/${q.needed})`;
+            statusSpan.style.color = "var(--tertiary)";
+            statusSpan.style.fontWeight = "600";
+          } else {
+            statusSpan.textContent = `In Progress (${q.current}/${q.needed})`;
+          }
+        }
+      }
+      selectQuestItem(selectedQuestIndex);
+    }
+
+    function turnInActiveQuest() {
+      const q = questData[selectedQuestIndex];
+      const statusSpan = document.getElementById(`qStatus${q.id}`);
+      if (statusSpan) {
+        statusSpan.textContent = `COMPLETED • +${q.reward} XP`;
+        statusSpan.style.color = "var(--primary)";
+      }
+      const dialogBubble = document.getElementById('dialogBubbleText');
+      if (dialogBubble) {
+        dialogBubble.textContent = `[Quest Completed] ${q.turnInDialog} (+${q.reward} Experience points rewarded)`;
+      }
+      const turnInBtn = document.getElementById('turnInBtn');
+      if (turnInBtn) turnInBtn.disabled = true;
+    }
+
+    function switchQuestTab(tabName) {
+      const tabs = ['simulator', 'dialogue', 'code'];
+      tabs.forEach(t => {
+        const el = document.getElementById(`questTab${t.charAt(0).toUpperCase() + t.slice(1)}`);
+        if (el) el.style.display = (t === tabName) ? 'block' : 'none';
+      });
+
+      const triggers = document.querySelectorAll('#questSystem .tab-trigger');
+      triggers.forEach(tr => {
+        if (tr.getAttribute('onclick')?.includes(tabName)) tr.classList.add('active');
+        else tr.classList.remove('active');
+      });
+    }
+
+    const questCodeSnippets = {
+      quest: `[CreateAssetMenu(fileName = "New Quest", menuName = "Quest"), Serializable]
+public class Quest : ScriptableObject
+{
+    [field: SerializeField] public string QuestName { get; private set; }
+    [field: SerializeField] public string QuestDescription { get; private set; }
+    
+    // Toggle allowing linear progression or open simultaneous goals
+    [field: SerializeField] public bool GoalsAreSequential { get; private set; }
+    
+    [field: SerializeField] public List<Quest.Goal> QuestGoals { get; private set; } = new();
+    [field: SerializeField] public List<Quest> UnlockQuests { get; private set; } = new();
+    
+    [field: SerializeField] public String QuestHolderUniqueIdentifier { get; private set; }
+    [field: SerializeField] public String QuestHolderForTurnInUniqueIdentifier { get; private set; }
+    
+    [field: SerializeField] public Dialogue giveQuestDialog { get; private set; }
+    [field: SerializeField] public Dialogue turnInQuestDialog { get; private set; }
+}`,
+      inventory: `public class QuestInventory : MonoBehaviour
+{
+    public List<Quest> ActiveQuests { get; private set; } = new();
+    public List<Quest> NeedsTurnedInQuests { get; private set; } = new();
+    public List<Quest> FinishedQuests { get; private set; } = new();
+    
+    Dictionary<Quest, int> AmountNeededDictionary = new();
+
+    private void Start()
+    {
+        // Event decoupling: dynamic subscription without coupling directly to enemies or pickups
+        Health.OnDeath += UpdateQuestAmountNeededDictionary;
+        QuestItem.LootedItem += UpdateQuestAmountNeededDictionary;
+    }
+
+    void UpdateQuestAmountNeededDictionary(GameObject objectThatDied)
+    {
+        foreach (Quest quest in ActiveQuests)
+        {
+            if (AmountNeededDictionary.ContainsKey(quest) && AmountNeededDictionary[quest] > 0)
+            {
+                if (quest.questGoal.objectNeeded.tag == objectThatDied.tag)
+                {
+                    AmountNeededDictionary[quest]--;
+                    if (AmountNeededDictionary[quest] == 0)
+                    {
+                        NeedsTurnedInQuests.Add(quest);
+                    }
                 }
             }
+        }
+    }
+}`,
+      dialogstate: `public class NPCDialogState : NPCBaseState
+{
+    private Dialogue dialogue;
 
-            function initParticles() {
-                particles = [];
-                const totalParticles = Math.max(25, Math.floor(canvas.width * canvas.height * PARTICLE_COUNT_RATIO));
-                for (let i = 0; i < totalParticles; i++) {
-                    particles.push(new GlowingOrb());
-                }
-            }
+    public override void Enter()
+    {
+        DialogManager.Instance.DialogueComplete += DialogueCompleted;
+        DialogManager.Instance.PlayDialogue(dialogue);
+        stateMachine.Animator.CrossFadeInFixedTime(TALKING_ANIMATION_HASH, 0.2f);
+    }
 
-            function animate() {
-                // Clear the canvas cleanly so fallback gradient shines through
-                ctx.clearRect(0, 0, canvas.width, canvas.height);
+    public override void Tick(float deltaTime)
+    {
+        FacePlayer(); // Smoothly orients NPC forward transform toward player position
+    }
 
-                const time = Date.now() * 0.001;
-                for (let i = 0; i < particles.length; i++) {
-                    particles[i].draw(time);
-                }
+    public override void Exit()
+    {
+        stateMachine.SetIsNotInteractingWithPlayer();
+        if (PlayerHasQuestsReadyToTurnIn())
+        {
+            Quest completedQuest = GetQuestToTurnIn();
+            stateMachine.QuestHolder.PlayerTurnsInQuest(completedQuest);
+            return;
+        }
+        if (HasQuestToGive())
+        {
+            QuestInventory.Instance.AttemptAcceptQuest(stateMachine.QuestHolder.GiveQuestToPlayer());
+        }
+    }
+}`
+    };
 
-                animationFrameId = requestAnimationFrame(animate);
-            }
+    function switchQuestCode(key) {
+      const block = document.getElementById('questCodeBlock');
+      if (block && questCodeSnippets[key]) {
+        block.textContent = questCodeSnippets[key];
+      }
+      const btns = document.querySelectorAll('#questTabCode .code-file-btn');
+      btns.forEach(b => {
+        if (b.getAttribute('onclick')?.includes(key)) b.classList.add('active');
+        else b.classList.remove('active');
+      });
+    }
 
-            // Bind Event Handlers
-            window.addEventListener('resize', resizeCanvas);
-            resizeCanvas();
-            animate();
-        })();
-    </script>
+    // --- JSON Save Sandbox ---
+    function updateJsonLive() {
+      const masterVal = document.getElementById('sliderMaster')?.value || -6;
+      const sfxVal = document.getElementById('sliderSfx')?.value || -12;
+      const sceneVal = document.getElementById('selectSceneIndex')?.value || 1;
+
+      const lblMaster = document.getElementById('lblMaster');
+      const lblSfx = document.getElementById('lblSfx');
+      if (lblMaster) lblMaster.textContent = `${masterVal} dB`;
+      if (lblSfx) lblSfx.textContent = `${sfxVal} dB`;
+
+      const completed = [];
+      if (document.getElementById('chkQ1')?.checked) completed.push("Flowers For Grandma");
+      if (document.getElementById('chkQ2')?.checked) completed.push("Kill Some Rats 1");
+      if (document.getElementById('chkQ3')?.checked) completed.push("King of the Forest");
+
+      const jsonObj = {
+        "lastSceneBuildIndex": parseInt(sceneVal, 10),
+        "AudioMixer_Settings": {
+          "MasterVolume": parseFloat(masterVal),
+          "MusicVolume": -10.0,
+          "SoundFXVolume": parseFloat(sfxVal)
+        },
+        "QuestInventory_Guid_86db4c": {
+          "finishedQuests": completed,
+          "activeQuests": completed.includes("Flowers For Grandma") ? [] : ["Flowers For Grandma"],
+          "amountRemaining": {}
+        },
+        "PlayerTransform_Guid_player": {
+          "x": -177.55,
+          "y": 28.37,
+          "z": 143.93
+        }
+      };
+
+      const codeViewer = document.getElementById('jsonCodeViewer');
+      if (codeViewer) {
+        codeViewer.innerHTML = `<code>${JSON.stringify(jsonObj, null, 2)}</code>`;
+      }
+    }
+
+    function triggerSavePulse() {
+      const ind = document.getElementById('jsonStateIndicator');
+      if (ind) {
+        ind.textContent = "SAVED TO DISK (GameSave.json)";
+        ind.className = "label-badge sage mono";
+        setTimeout(() => {
+          ind.textContent = "JSON CAPTURE READY";
+          ind.className = "label-badge cyan mono";
+        }, 1500);
+      }
+    }
+
+    function restoreDefaultJson() {
+      const sM = document.getElementById('sliderMaster');
+      const sS = document.getElementById('sliderSfx');
+      const sel = document.getElementById('selectSceneIndex');
+      const c1 = document.getElementById('chkQ1');
+      const c2 = document.getElementById('chkQ2');
+      const c3 = document.getElementById('chkQ3');
+
+      if (sM) sM.value = -6;
+      if (sS) sS.value = -12;
+      if (sel) sel.value = 1;
+      if (c1) c1.checked = true;
+      if (c2) c2.checked = true;
+      if (c3) c3.checked = false;
+
+      updateJsonLive();
+      const ind = document.getElementById('jsonStateIndicator');
+      if (ind) {
+        ind.textContent = "STATE RESTORED FROM JTOKEN";
+        ind.className = "label-badge amber mono";
+        setTimeout(() => {
+          ind.textContent = "JSON CAPTURE READY";
+          ind.className = "label-badge cyan mono";
+        }, 1500);
+      }
+    }
+
+    // --- 3D Character Art Pipeline & Three.js Canvas ---
+    const npcSpecs = [
+      {
+        tag: "ASSET: FEMALE_NPC_BLACKSMITH",
+        polys: "TRIANGLES: 8,420 • BONES: 54",
+        details: `Modeled specifically for the "TalkToBlacksmith" quest branch. Authored with high surface fidelity to withstand close-up dialogue camera angles, featuring custom normal bakes from high-poly sub-d meshes.`,
+        color: 0x63c7d6,
+        shape: "blacksmith"
+      },
+      {
+        tag: "ASSET: GNOME_VICTOR_ENGINEER",
+        polys: "TRIANGLES: 6,850 • BONES: 48",
+        details: `Engineered with compact proportions and an oversized mechanical telemetry pack. Features brass goggle lens refractions and tool pouch attachment sockets.`,
+        color: 0x87d69b,
+        shape: "gnome"
+      },
+      {
+        tag: "ASSET: MALE_NPC_MARVIN",
+        polys: "TRIANGLES: 7,940 • BONES: 52",
+        details: `Scavenger archetype wearing weathered layered outerwear. Integrated with MarvinCollectionQuest where the player exchanges blow torches.`,
+        color: 0xe8b954,
+        shape: "marvin"
+      },
+      {
+        tag: "ASSET: GRANDMA_ELDER",
+        polys: "TRIANGLES: 6,210 • BONES: 46",
+        details: `Custom floral patterned apron and elder posture. Hand-painted detail maps optimized for gentle idle sway transitions in the village square.`,
+        color: 0xf08c70,
+        shape: "grandma"
+      },
+      {
+        tag: "ASSET: VILLAGE_RESIDENT",
+        polys: "TRIANGLES: 5,600 • BONES: 46",
+        details: `Commoner civilian archetype providing ambient world flavor and casual narrative gossip about the encroaching rat King.`,
+        color: 0x5d7882,
+        shape: "resident"
+      }
+    ];
+
+    let currentNpcIndex = 0;
+    let threeScene, threeCamera, threeRenderer, characterMeshGroup;
+    let isWireframe = false;
+    let isAutoRotating = true;
+
+    function initThreeViewport() {
+      const container = document.getElementById('threeCanvasBox');
+      if (!container) return;
+
+      const width = container.clientWidth || 500;
+      const height = container.clientHeight || 380;
+
+      threeScene = new THREE.Scene();
+      threeCamera = new THREE.PerspectiveCamera(45, width / height, 0.1, 100);
+      threeCamera.position.set(0, 1.2, 3.8);
+
+      threeRenderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+      threeRenderer.setSize(width, height);
+      threeRenderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+      container.appendChild(threeRenderer.domElement);
+
+      // Studio Lighting
+      const ambLight = new THREE.AmbientLight(0xffffff, 0.6);
+      threeScene.add(ambLight);
+
+      const dirLight1 = new THREE.DirectionalLight(0x63c7d6, 1.2);
+      dirLight1.position.set(3, 4, 3);
+      threeScene.add(dirLight1);
+
+      const dirLight2 = new THREE.DirectionalLight(0xe8b954, 0.6);
+      dirLight2.position.set(-3, -1, -2);
+      threeScene.add(dirLight2);
+
+      // Floor Grid
+      const grid = new THREE.GridHelper(6, 12, 0x38515c, 0x152024);
+      grid.position.y = -1.2;
+      threeScene.add(grid);
+
+      // Mesh Group
+      characterMeshGroup = new THREE.Group();
+      threeScene.add(characterMeshGroup);
+
+      buildNpcMesh(0);
+
+      // Mouse drag controls
+      let isDragging = false;
+      let prevMousePos = { x: 0, y: 0 };
+
+      container.addEventListener('mousedown', (e) => {
+        isDragging = true;
+        prevMousePos = { x: e.clientX, y: e.clientY };
+      });
+
+      window.addEventListener('mouseup', () => { isDragging = false; });
+
+      window.addEventListener('mousemove', (e) => {
+        if (!isDragging || !characterMeshGroup) return;
+        const deltaX = e.clientX - prevMousePos.x;
+        const deltaY = e.clientY - prevMousePos.y;
+        characterMeshGroup.rotation.y += deltaX * 0.008;
+        characterMeshGroup.rotation.x += deltaY * 0.005;
+        prevMousePos = { x: e.clientX, y: e.clientY };
+      });
+
+      // Render Loop
+      function animate() {
+        requestAnimationFrame(animate);
+        if (isAutoRotating && characterMeshGroup && !isDragging) {
+          characterMeshGroup.rotation.y += 0.006;
+        }
+        threeRenderer.render(threeScene, threeCamera);
+      }
+      animate();
+
+      // Window resize
+      window.addEventListener('resize', () => {
+        if (!container || !threeRenderer || !threeCamera) return;
+        const w = container.clientWidth;
+        const h = container.clientHeight;
+        threeCamera.aspect = w / h;
+        threeCamera.updateProjectionMatrix();
+        threeRenderer.setSize(w, h);
+      });
+    }
+
+    function buildNpcMesh(idx) {
+      if (!characterMeshGroup) return;
+
+      // Clear existing children
+      while (characterMeshGroup.children.length > 0) {
+        const obj = characterMeshGroup.children[0];
+        characterMeshGroup.remove(obj);
+      }
+
+      const spec = npcSpecs[idx];
+      const mat = new THREE.MeshStandardMaterial({
+        color: spec.color,
+        roughness: 0.35,
+        metalness: 0.25,
+        wireframe: isWireframe
+      });
+
+      const accentMat = new THREE.MeshStandardMaterial({
+        color: 0xedf3f5,
+        roughness: 0.2,
+        metalness: 0.6,
+        wireframe: isWireframe
+      });
+
+      // Procedural Stylized Character Figure
+      // Head
+      const headGeo = new THREE.SphereGeometry(0.32, 16, 16);
+      const head = new THREE.Mesh(headGeo, accentMat);
+      head.position.y = 1.1;
+      characterMeshGroup.add(head);
+
+      // Torso
+      let torsoGeo;
+      if (spec.shape === 'gnome') {
+        torsoGeo = new THREE.CylinderGeometry(0.4, 0.45, 0.7, 12);
+      } else {
+        torsoGeo = new THREE.CylinderGeometry(0.35, 0.25, 0.9, 12);
+      }
+      const torso = new THREE.Mesh(torsoGeo, mat);
+      torso.position.y = 0.4;
+      characterMeshGroup.add(torso);
+
+      // Waist / Apron / Coat
+      const beltGeo = new THREE.CylinderGeometry(0.36, 0.4, 0.35, 12);
+      const belt = new THREE.Mesh(beltGeo, accentMat);
+      belt.position.y = -0.05;
+      characterMeshGroup.add(belt);
+
+      // Limbs
+      const armGeo = new THREE.CylinderGeometry(0.1, 0.09, 0.75, 8);
+      const leftArm = new THREE.Mesh(armGeo, mat);
+      leftArm.position.set(-0.5, 0.4, 0);
+      leftArm.rotation.z = 0.15;
+      characterMeshGroup.add(leftArm);
+
+      const rightArm = new THREE.Mesh(armGeo, mat);
+      rightArm.position.set(0.5, 0.4, 0);
+      rightArm.rotation.z = -0.15;
+      characterMeshGroup.add(rightArm);
+
+      const legGeo = new THREE.CylinderGeometry(0.13, 0.1, 0.85, 8);
+      const leftLeg = new THREE.Mesh(legGeo, mat);
+      leftLeg.position.set(-0.2, -0.65, 0);
+      characterMeshGroup.add(leftLeg);
+
+      const rightLeg = new THREE.Mesh(legGeo, mat);
+      rightLeg.position.set(0.2, -0.65, 0);
+      characterMeshGroup.add(rightLeg);
+
+      // Special Prop / Tool for archetype
+      if (spec.shape === 'blacksmith') {
+        const hammerHead = new THREE.BoxGeometry(0.25, 0.18, 0.4);
+        const hammer = new THREE.Mesh(hammerHead, accentMat);
+        hammer.position.set(0.55, 0.05, 0.2);
+        characterMeshGroup.add(hammer);
+      } else if (spec.shape === 'gnome') {
+        const pack = new THREE.BoxGeometry(0.45, 0.55, 0.35);
+        const backpack = new THREE.Mesh(pack, accentMat);
+        backpack.position.set(0, 0.45, -0.3);
+        characterMeshGroup.add(backpack);
+      }
+    }
+
+    function selectNpcAsset(idx) {
+      currentNpcIndex = idx;
+      const spec = npcSpecs[idx];
+
+      // Update Cards
+      [0, 1, 2, 3, 4].forEach(i => {
+        const c = document.getElementById(`npcCard${i}`);
+        if (c) {
+          if (i === idx) c.classList.add('active');
+          else c.classList.remove('active');
+        }
+      });
+
+      // Update UI readouts
+      const tag = document.getElementById('modelAssetTag');
+      const poly = document.getElementById('polycountDisplay');
+      const detail = document.getElementById('npcDetailText');
+
+      if (tag) tag.textContent = spec.tag;
+      if (poly) poly.textContent = spec.polys;
+      if (detail) detail.textContent = spec.details;
+
+      buildNpcMesh(idx);
+    }
+
+    function toggleWireframeMode() {
+      isWireframe = !isWireframe;
+      buildNpcMesh(currentNpcIndex);
+    }
+
+    function toggleModelRotation() {
+      isAutoRotating = !isAutoRotating;
+      const icon = document.getElementById('rotBtnIcon');
+      if (icon) {
+        icon.setAttribute('data-lucide', isAutoRotating ? 'pause' : 'play');
+        lucide.createIcons();
+      }
+    }
+
+    // Window Load Hook
+    window.addEventListener('DOMContentLoaded', () => {
+      lucide.createIcons();
+      updatePlayerDisplay();
+      updateJsonLive();
+      initThreeViewport();
+    });
+  </script>
 </body>
 </html>
